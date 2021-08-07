@@ -6,7 +6,7 @@ var m = 50000;
 var contador = 0;
 
 export function validarNumeros() {
-
+    
 }
 
 export function dejarDeListar() {
@@ -15,51 +15,90 @@ export function dejarDeListar() {
     contador = 0;
 }
 
-export function generar20Numeros(semilla, CM, CA) {
-    if (contador < m) {
-        let corte = contador + 20;
-        while (contador < corte) {
+export function generar20Numeros(metodo, semilla, CM, CA) {
+    if (metodo === 0) {
+        if (contador < m) {
+            let corte = contador + 20;
+            while (contador < corte) {
+                //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
+
+                var resto = (CM * semilla) % m;
+                semilla = resto;
+
+                //Obtengo el número aleatorio y lo trunco a 4 decimales
+                var n1 = resto / (m - 1);
+                var n_aleatorio = Math.random(n1).toFixed(4);
+
+                //Agrego el número aleatorio a la lista
+                lista.push(n_aleatorio);
+                contador += 1
+            }
+            console.log(lista);
+        } else {
+            alert('Se alcanzó el límite posible.');
+        }
+    }
+    else {
+        if (contador < m) {
+            let corte = contador + 20;
+            while (contador < corte) {
+                //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
+                var resto = (CM * semilla + CA) % m;
+                semilla = resto;
+
+                //Obtengo el número aleatorio y lo trunco a 4 decimales
+                var n1 = resto / (m - 1);
+                var n_aleatorio = Math.random(n1).toFixed(4);
+
+                //Agrego el número aleatorio a la lista
+                lista.push(n_aleatorio);
+                contador += 1
+            }
+            console.log(lista);
+        } else {
+            alert('Se alcanzó el límite posible.');
+        }
+    }
+}
+
+export function listarHastaFinal(metodo, semilla, CM, CA) {
+    if (metodo === 0) {
+        while (contador < m) {
             //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
-            var resto = (CM * semilla + CA) % m;
+            var resto = (CM * semilla) % m;
             semilla = resto;
 
             //Obtengo el número aleatorio y lo trunco a 4 decimales
             var n1 = resto / (m - 1);
-            var n_aleatorio = Math.floor(n1 * 10000) / 10000;
+            var n_aleatorio = Math.random(n1).toFixed(4);
 
             //Agrego el número aleatorio a la lista
             lista.push(n_aleatorio);
             contador += 1
         }
         console.log(lista);
-    } else {
-        alert('Se alcanzó el límite posible.');
     }
+    else {
+        if (contador < m) {
+            while (contador < m) {
+                //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
+                var resto = (CM * semilla + CA) % m;
+                semilla = resto;
 
-}
+                //Obtengo el número aleatorio y lo trunco a 4 decimales
+                var n1 = resto / (m - 1);
+                var n_aleatorio = Math.random(n1).toFixed(4);
 
-
-export function listarHastaFinal(semilla, CM, CA) {
-    while (contador < m) {
-        //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
-        var resto = (CM * semilla + CA) % m;
-        semilla = resto;
-
-        //Obtengo el número aleatorio y lo trunco a 4 decimales
-        var n1 = resto / (m - 1);
-        var n_aleatorio = Math.floor(n1 * 10000) / 10000;
-
-        //Agrego el número aleatorio a la lista
-        lista.push(n_aleatorio);
-        contador += 1
+                //Agrego el número aleatorio a la lista
+                lista.push(n_aleatorio);
+                contador += 1
+            }
+            console.log(lista);
+        } else {
+            alert('Se alcanzó el límite posible.');
+        }
     }
-    console.log(lista);
-
-    // if (a) {
-    //     console.log(lista);
-    // }
 }
-
 
 export function listarDesdeHasta(desde, hasta) {
     // listarFinal(false)
