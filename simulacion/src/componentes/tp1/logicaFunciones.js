@@ -2,9 +2,6 @@
 //Prueba de 5 numeros
 
 var lista = [];
-var semilla = parseInt(prompt('Introduzca el valor de la semilla', 1));
-var CM = parseInt(prompt('Introduzca el valor de la constante multiplicativa. Recuerde que debe ser impar y no debe ser multiplo de 3 o 5.', 1));
-var CA = parseInt(prompt('Introduzca el valor de la constante aditiva', 1));
 var m = 50000;
 var contador = 0;
 
@@ -12,16 +9,13 @@ export function validarNumeros() {
 
 }
 
-export function dejarDeListar(semilla, CM, CA, contador) {
+export function dejarDeListar() {
     lista = [];
-    semilla = parseInt(prompt('Introduzca el valor de la semilla', 1));
-    CM = parseInt(prompt('Introduzca el valor de la constante multiplicativa. Recuerde que debe ser impar y no debe ser multiplo de 3 o 5.', 1));
-    CA = parseInt(prompt('Introduzca el valor de la constante aditiva', 1));
     m = 50000;
     contador = 0;
 }
 
-export function generar20Numeros(contador, semilla, CM, CA) {
+export function generar20Numeros(semilla, CM, CA) {
     if (contador < m) {
         let corte = contador + 20;
         while (contador < corte) {
@@ -45,7 +39,7 @@ export function generar20Numeros(contador, semilla, CM, CA) {
 }
 
 
-export function listarHastaFinal(semilla, CM, CA, contador, a = true) {
+export function listarHastaFinal(semilla, CM, CA) {
     while (contador < m) {
         //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
         var resto = (CM * semilla + CA) % m;
@@ -59,9 +53,11 @@ export function listarHastaFinal(semilla, CM, CA, contador, a = true) {
         lista.push(n_aleatorio);
         contador += 1
     }
-    if (a) {
-        console.log(lista);
-    }
+    console.log(lista);
+
+    // if (a) {
+    //     console.log(lista);
+    // }
 }
 
 
