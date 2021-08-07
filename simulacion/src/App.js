@@ -13,6 +13,7 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import TrabajoPracticoUno from './componentes/tp1/TrabajoPracticoUno';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,17 +76,17 @@ export default function App() {
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
-          <Tab label="Item One" icon={<PhoneIcon />} {...a11yProps(0)} />
-          <Tab label="Item Two" icon={<FavoriteIcon />} {...a11yProps(1)} />
-          <Tab label="Item Three" icon={<PersonPinIcon />} {...a11yProps(2)} />
-          <Tab label="Item Four" icon={<HelpIcon />} {...a11yProps(3)} />
-          <Tab label="Item Five" icon={<ShoppingBasket />} {...a11yProps(4)} />
-          <Tab label="Item Six" icon={<ThumbDown />} {...a11yProps(5)} />
-          <Tab label="Item Seven" icon={<ThumbUp />} {...a11yProps(6)} />
+          <Tab label="Trabajo Practico 1" icon={<PhoneIcon />} {...a11yProps(0)} />
+          <Tab label="Trabajo Practico 2" icon={<FavoriteIcon />} {...a11yProps(1)} />
+          <Tab label="Trabajo Practico 3" icon={<PersonPinIcon />} {...a11yProps(2)} />
+          <Tab label="Trabajo Practico 4" icon={<HelpIcon />} {...a11yProps(3)} />
+          <Tab label="Trabajo Practico 5" icon={<ShoppingBasket />} {...a11yProps(4)} />
+          <Tab label="Trabajo Practico 6" icon={<ThumbDown />} {...a11yProps(5)} />
+          <Tab label="Trabajo Practico 7" icon={<ThumbUp />} {...a11yProps(6)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        <TrabajoPracticoUno	/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two
