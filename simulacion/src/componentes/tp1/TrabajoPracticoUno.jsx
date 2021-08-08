@@ -12,6 +12,13 @@ import Select from '@material-ui/core/Select';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 //logica
 import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal } from './logicaFunciones';
 
@@ -23,7 +30,8 @@ const TrabajoPracticoUno = () => {
     const [constAditiva, setConstAditiva] = React.useState(1)
     const [desde, setDesde] = React.useState(1)
     const [hasta, setHasta] = React.useState(100)
-    
+    const [lista, setLista] = React.useState([])
+
     const handleChangeMetodo = (e) => {
         setMetodo(e.target.value)
     }
@@ -40,7 +48,6 @@ const TrabajoPracticoUno = () => {
             setConstAditiva(value)
         }
     }
-
 
     return (
         <div >
@@ -88,41 +95,60 @@ const TrabajoPracticoUno = () => {
                     />
                 </Grid>
             </Grid>
-            <Grid container direction={'row'}  justifyContent={'center'} alignItems={'center'}  >
+            <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
                 <Grid item xs={4} style={{ marginTop: '40px' }}>
                     <FormControl variant="outlined" >
-                            <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
-                            <Select
-                            labelId="demo-simple-select-outlined-label"
-                            value={metodo}
-
-                            onChange={(e)=>handleChangeMetodo(e)}
+                        <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
+                        <Select
                             label="Metodo"
-                            >
-                        
+                            value={metodo}
+                            onChange={(e) => handleChangeMetodo(e)}
+                        >
                             <MenuItem value={0}>Método de Congruencia Multiplicativos</MenuItem>
                             <MenuItem value={1}>Método de Congruencia Mixto</MenuItem>
-                            </Select>
+                        </Select>
                     </FormControl>
                 </Grid>
-                <Grid item  style={{ marginTop: '40px'}}>
-                    <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary' } aria-label="contained primary button group">
-                        <Button onClick={() => dejarDeListar()}>Dejar de Listar</Button>
-                        <Button onClick={() => generar20Numeros(semilla, constMultiplicativa, constAditiva)}>Generar 20 numeros</Button>
-                        <Button onClick={() => listarHastaFinal(semilla, constMultiplicativa, constAditiva)}>Listar hasta el final</Button>
+                <Grid item style={{ marginTop: '40px' }}>
+                    <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
+                        <Button onClick={() => dejarDeListar(setLista)}>Dejar de Listar</Button>
+                        <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
+                        <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
                         <Button onClick={() => listarDesdeHasta(desde, hasta)}>Listar desde/hasta</Button>
                     </ButtonGroup>
                 </Grid>
-                <Grid item style={{display:'flex', justifyContent:'center', marginTop:'50px'}} xs={12} >
-                    <List style={{maxHeight:'400px', overflow:'auto'}} >
-                        {list.map((item, index) => (
+                {/* <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                    <List style={{ width: "150px", overflow: 'auto' }} >
+                        {lista.map((item, index) => (
                             <ListItem key={index}>
                                 <ListItemText
                                     primary={item}
                                 />
                             </ListItem>
-                        )) }
+                        ))}
                     </List>
+                </Grid> */}
+                <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                    <TableContainer style={{ width: "600px", height: "400px", overflow: "auto" }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>N° de orden</TableCell>
+                                    <TableCell>Numeros aleatorios</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {lista.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row">
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell>{item}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
             </Grid>
 
@@ -131,60 +157,3 @@ const TrabajoPracticoUno = () => {
 }
 
 export default TrabajoPracticoUno;
-
-const list = [
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-    'uno', 'dos', 'tres',
-]

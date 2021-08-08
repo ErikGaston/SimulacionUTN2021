@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import HelpIcon from '@material-ui/icons/Help';
@@ -76,7 +76,7 @@ export default function App() {
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
-          <Tab label="Trabajo Practico 1" icon={<PhoneIcon />} {...a11yProps(0)} />
+          <Tab label="Trabajo Practico 1" icon={<FormatListNumberedIcon />} {...a11yProps(0)} />
           <Tab label="Trabajo Practico 2" icon={<FavoriteIcon />} {...a11yProps(1)} />
           <Tab label="Trabajo Practico 3" icon={<PersonPinIcon />} {...a11yProps(2)} />
           <Tab label="Trabajo Practico 4" icon={<HelpIcon />} {...a11yProps(3)} />
