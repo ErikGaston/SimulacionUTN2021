@@ -22,19 +22,17 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
             let corte = contador + num;
             while (contador < corte) {
                 //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
-                var resto = (CM * semilla) % m;
-                semilla = resto;
+                semilla = (CM * semilla) % m;
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
-                var n1 = resto / m;
+                var n1 = semilla / (m - 1);
                 var n_aleatorio = Math.floor(n1 * 10000) / 10000;
+                // var n_aleatorio = Math.random(n1).toFixed(4);
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
                 contador += 1
             }
-            debugger
-            console.log(lista);
             setLista([...lista])
         } else {
             alert('Se alcanzó el límite posible.');
@@ -45,18 +43,17 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
             let corte = contador + num;
             while (contador < corte) {
                 //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
-                var resto = (CM * semilla + CA) % m;
-                semilla = resto;
+                semilla = (CM * semilla + CA) % m;
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
-                var n1 = resto / (m - 1);
+                var n1 = semilla / (m - 1);
                 var n_aleatorio = Math.floor(n1 * 10000) / 10000;
+                // var n_aleatorio = Math.random(n1).toFixed(4);
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
                 contador += 1
             }
-            console.log(lista);
             setLista([...lista])
         } else {
             alert('Se alcanzó el límite posible.');
@@ -69,11 +66,11 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
         while (contador < m) {
             //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
             semilla = (CM * semilla) % m;
-            semilla = resto;
 
             //Obtengo el número aleatorio y lo trunco a 4 decimales
-            var n1 = resto / (m - 1);
+            var n1 = semilla / (m - 1);
             var n_aleatorio = Math.floor(n1 * 10000) / 10000;
+            // var n_aleatorio = Math.random(n1).toFixed(4);
 
             //Agrego el número aleatorio a la lista
             lista.push(n_aleatorio);
@@ -85,12 +82,12 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
         if (contador < m) {
             while (contador < m) {
                 //Obtengo la semilla del proximo paso y la asigno a la variable correspondiente
-                var resto = (CM * semilla + CA) % m;
-                semilla = resto;
+                semilla = (CM * semilla + CA) % m;
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
-                var n1 = resto / (m - 1);
+                var n1 = semilla / (m - 1);
                 var n_aleatorio = Math.floor(n1 * 10000) / 10000;
+                // var n_aleatorio = Math.random(n1).toFixed(4);
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
@@ -103,8 +100,8 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
     }
 }
 
-export function listarDesdeHasta(metodo, semilla, CM, CA, setLista, setLista) {
-    listarHastaFinal(metodo, semilla, CM, CA, setLista);
+export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista) {
+    listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
     let desde = parseInt(prompt('Ingrese desde que número quiere listar'));
     let hasta = parseInt(prompt('Ingrese hasta que número quiere listar'));
     console.log(lista.slice(desde + 1, hasta + 1));
