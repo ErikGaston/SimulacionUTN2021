@@ -114,7 +114,7 @@ const TrabajoPracticoUno = () => {
                         <Button onClick={() => dejarDeListar(setLista)}>Dejar de Listar</Button>
                         <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
                         <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
-                        <Button onClick={() => listarDesdeHasta(desde, hasta)}>Listar desde/hasta</Button>
+                        <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva)}>Listar desde/hasta</Button>
                     </ButtonGroup>
                 </Grid>
                 {/* <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >

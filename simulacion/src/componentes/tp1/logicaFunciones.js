@@ -26,8 +26,8 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
                 semilla = resto;
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
-                var n1 = resto / (m - 1);
-                var n_aleatorio = Math.random(n1).toFixed(4);
+                var n1 = resto / m;
+                var n_aleatorio = Math.floor(n1 * 10000) / 10000;
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
@@ -50,7 +50,7 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
                 var n1 = resto / (m - 1);
-                var n_aleatorio = Math.random(n1).toFixed(4);
+                var n_aleatorio = Math.floor(n1 * 10000) / 10000;
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
@@ -73,7 +73,7 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
 
             //Obtengo el número aleatorio y lo trunco a 4 decimales
             var n1 = resto / (m - 1);
-            var n_aleatorio = Math.random(n1).toFixed(4);
+            var n_aleatorio = Math.floor(n1 * 10000) / 10000;
 
             //Agrego el número aleatorio a la lista
             lista.push(n_aleatorio);
@@ -90,7 +90,7 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
 
                 //Obtengo el número aleatorio y lo trunco a 4 decimales
                 var n1 = resto / (m - 1);
-                var n_aleatorio = Math.random(n1).toFixed(4);
+                var n_aleatorio = Math.floor(n1 * 10000) / 10000;
 
                 //Agrego el número aleatorio a la lista
                 lista.push(n_aleatorio);
@@ -103,10 +103,10 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
     }
 }
 
-export function listarDesdeHasta(desde, hasta, setLista) {
-    // listarFinal(false)
-    // let desde = parseInt(prompt('Ingrese desde que número quiere listar'));
-    // let hasta = parseInt(prompt('Ingrese hasta que número quiere listar'));
+export function listarDesdeHasta(metodo, semilla, CM, CA, setLista, setLista) {
+    listarHastaFinal(metodo, semilla, CM, CA, setLista);
+    let desde = parseInt(prompt('Ingrese desde que número quiere listar'));
+    let hasta = parseInt(prompt('Ingrese hasta que número quiere listar'));
     console.log(lista.slice(desde + 1, hasta + 1));
     setLista(lista.slice(desde + 1, hasta + 1));
 }
