@@ -6,12 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,7 +17,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 //logica
-import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal } from './logicaFunciones';
+import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, validarNumeros } from './logicaFunciones';
 
 const TrabajoPracticoUno = () => {
 
@@ -28,8 +25,6 @@ const TrabajoPracticoUno = () => {
     const [metodo, setMetodo] = React.useState(0)
     const [constMultiplicativa, setConstMultiplicativa] = React.useState(1)
     const [constAditiva, setConstAditiva] = React.useState(1)
-    const [desde, setDesde] = React.useState(1)
-    const [hasta, setHasta] = React.useState(100)
     const [lista, setLista] = React.useState([])
 
     const handleChangeMetodo = (e) => {
@@ -40,7 +35,12 @@ const TrabajoPracticoUno = () => {
     const handleChange = () => e => {
         const { name, value } = e.target
         if (name === 'semilla') {
-            setSemilla(value)
+            if (value > 50000){
+                alert('El valor de la semilla no puede ser mayor a la longitud del generador (50000).');
+                setSemilla(1);
+            }else{
+                setSemilla(value)
+            }
         }
         if (name === 'constMultiplicativa') {
             setConstMultiplicativa(value)
