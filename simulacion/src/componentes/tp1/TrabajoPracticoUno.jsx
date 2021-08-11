@@ -19,6 +19,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import InfiniteScroll from 'react-infinite-scroll-component';
 //logica
 import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal } from './logicaFunciones';
 
@@ -128,7 +129,7 @@ const TrabajoPracticoUno = () => {
                         ))}
                     </List>
                 </Grid> */}
-                <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                {/* <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
                     <TableContainer style={{ width: "600px", height: "400px", overflow: "auto" }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -149,7 +150,16 @@ const TrabajoPracticoUno = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </Grid>
+                </Grid> */}
+                <InfiniteScroll
+                    dataLength={lista.length}
+                >
+                    {lista.map((_, index) => (
+                    <div  key={index}>
+                        div - #{index}
+                    </div>
+                    ))}
+                </InfiniteScroll>
             </Grid>
 
         </div>
