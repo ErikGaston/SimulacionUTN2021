@@ -14,6 +14,7 @@ import './tabla.css';
 
 //logica
 import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, validarNumeros } from './logicaFunciones';
+import { Histograma } from './Histograma';
 
 const TrabajoPracticoUno = () => {
 
@@ -58,102 +59,105 @@ const TrabajoPracticoUno = () => {
     }
 
     return (
-        <div >
-            <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                <Grid item xs={4}>
-                    <TextField
-                        name={'semilla'}
-                        value={semilla}
-                        style={{ width: '300px' }}
-                        label="Semilla"
-                        type="number"
-                        variant="outlined"
-                        placeholder={'Ingrese la semilla'}
-                        onChange={handleChange()}
-                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField
-                        name={'constMultiplicativa'}
-                        value={constMultiplicativa}
-                        style={{ width: '300px' }}
-                        label="Constante multiplicativa"
-                        type="number"
-                        defaultValue={1}
-                        variant="outlined"
-                        placeholder={'Ingrese la constante multiplicativa'}
-                        onChange={handleChange()}
-                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+        <>
+            <div >
+                <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                    <Grid item xs={4}>
+                        <TextField
+                            name={'semilla'}
+                            value={semilla}
+                            style={{ width: '300px' }}
+                            label="Semilla"
+                            type="number"
+                            variant="outlined"
+                            placeholder={'Ingrese la semilla'}
+                            onChange={handleChange()}
+                            onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            name={'constMultiplicativa'}
+                            value={constMultiplicativa}
+                            style={{ width: '300px' }}
+                            label="Constante multiplicativa"
+                            type="number"
+                            defaultValue={1}
+                            variant="outlined"
+                            placeholder={'Ingrese la constante multiplicativa'}
+                            onChange={handleChange()}
+                            onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
-                    />
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name={'constAditiva'}
+                            value={constAditiva}
+                            style={{ width: '300px' }}
+                            label="Constante aditiva"
+                            type="number"
+                            defaultValue={1}
+                            variant="outlined"
+                            placeholder={'Ingrese la constante aditiva'}
+                            onChange={handleChange()}
+                            onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <TextField
-                        name={'constAditiva'}
-                        value={constAditiva}
-                        style={{ width: '300px' }}
-                        label="Constante aditiva"
-                        type="number"
-                        defaultValue={1}
-                        variant="outlined"
-                        placeholder={'Ingrese la constante aditiva'}
-                        onChange={handleChange()}
-                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                    />
-                </Grid>
-            </Grid>
-            <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
-                <Grid item xs={4} style={{ marginTop: '40px' }}>
-                    <FormControl variant="outlined" >
-                        <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
-                        <Select
-                            label="Metodo"
-                            value={metodo}
-                            onChange={(e) => handleChangeMetodo(e)}
-                        >
-                            <MenuItem value={0}>Método de Congruencia Multiplicativos</MenuItem>
-                            <MenuItem value={1}>Método de Congruencia Mixto</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item style={{ marginTop: '40px' }}>
-                    <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
-                        <Button onClick={() => dejarDeListar(setLista)}>Dejar de Listar</Button>
-                        <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
-                        <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
-                        <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
-                    </ButtonGroup>
-                </Grid>
-                <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                    {/* Estilos de tabla que faltan*/}
-                    <div>
-                        <InfiniteScroll
-                            dataLength={scroll.length}
-                            next={() => setScroll(lista.slice(0, contador))}
-                            hasMore={true}
-                        >
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>N° de orden</th>
-                                        <th>Numeros aleatorios</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {scroll.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{index + 1}</td>
-                                            <td>{item}</td>
+                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
+                    <Grid item xs={4} style={{ marginTop: '40px' }}>
+                        <FormControl variant="outlined" >
+                            <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
+                            <Select
+                                label="Metodo"
+                                value={metodo}
+                                onChange={(e) => handleChangeMetodo(e)}
+                            >
+                                <MenuItem value={0}>Método de Congruencia Multiplicativos</MenuItem>
+                                <MenuItem value={1}>Método de Congruencia Mixto</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item style={{ marginTop: '40px' }}>
+                        <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
+                            <Button onClick={() => dejarDeListar(setLista)}>Dejar de Listar</Button>
+                            <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
+                            <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
+                            <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
+                        </ButtonGroup>
+                    </Grid>
+                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                        {/* Estilos de tabla que faltan*/}
+                        <div>
+                            <InfiniteScroll
+                                dataLength={scroll.length}
+                                next={() => setScroll(lista.slice(0, contador))}
+                                hasMore={true}
+                            >
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>N° de orden</th>
+                                            <th>Numeros aleatorios</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </InfiniteScroll>
-                    </div>
+                                    </thead>
+                                    <tbody>
+                                        {scroll.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </InfiniteScroll>
+                        </div>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </div>
+            </div>
+            <Histograma></Histograma>
+        </>
     )
 }
 
