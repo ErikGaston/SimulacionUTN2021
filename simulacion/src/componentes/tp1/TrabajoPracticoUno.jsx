@@ -9,13 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import InfiniteScroll from 'react-infinite-scroll-component';
+import './tabla.css';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 //logica
 import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, validarNumeros } from './logicaFunciones';
 
@@ -26,19 +22,30 @@ const TrabajoPracticoUno = () => {
     const [constMultiplicativa, setConstMultiplicativa] = React.useState(1)
     const [constAditiva, setConstAditiva] = React.useState(1)
     const [lista, setLista] = React.useState([])
+    const [scroll, setScroll] = React.useState([])
+    const [contador, setContador] = React.useState(0)
+
+    useEffect(() => {
+        setScroll(lista.slice(0, contador))
+    }, [lista])
+
+    useEffect(() => {
+        setContador(prevState => prevState + 5000)
+    }, [scroll])
 
     const handleChangeMetodo = (e) => {
         setMetodo(e.target.value)
         dejarDeListar(setLista);
+        setContador(0)
     }
 
     const handleChange = () => e => {
         const { name, value } = e.target
         if (name === 'semilla') {
-            if (value > 50000){
+            if (value > 50000) {
                 alert('El valor de la semilla no puede ser mayor a la longitud del generador (50000).');
                 setSemilla(1);
-            }else{
+            } else {
                 setSemilla(value)
             }
         }
@@ -118,41 +125,34 @@ const TrabajoPracticoUno = () => {
                         <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
                     </ButtonGroup>
                 </Grid>
-                {/* <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                    <List style={{ width: "150px", overflow: 'auto' }} >
-                        {lista.map((item, index) => (
-                            <ListItem key={index}>
-                                <ListItemText
-                                    primary={item}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Grid> */}
                 <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                    <TableContainer style={{ width: "600px", height: "400px", overflow: "auto" }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>N° de orden</TableCell>
-                                    <TableCell>Numeros aleatorios</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {lista.map((item, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell component="th" scope="row">
-                                            {index + 1}
-                                        </TableCell>
-                                        <TableCell>{item}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    {/* Estilos de tabla que faltan*/}
+                    <div>
+                        <InfiniteScroll
+                            dataLength={scroll.length}
+                            next={() => setScroll(lista.slice(0, contador))}
+                            hasMore={true}
+                        >
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>N° de orden</th>
+                                        <th>Numeros aleatorios</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {scroll.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </InfiniteScroll>
+                    </div>
                 </Grid>
             </Grid>
-
         </div>
     )
 }
