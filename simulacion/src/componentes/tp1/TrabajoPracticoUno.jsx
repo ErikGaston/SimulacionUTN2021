@@ -9,6 +9,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './tabla.css';
 
@@ -153,6 +160,40 @@ const TrabajoPracticoUno = () => {
                                 </table>
                             </InfiniteScroll>
                         </div>
+                    </Grid>
+
+                    {/* TABLA PARA CHI CUADRADO*/}
+                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                        <TableContainer style={{ width: "900px", height: "400px", overflow: "auto" }}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell >Intervalo</TableCell>
+                                        <TableCell>fo</TableCell>
+                                        <TableCell>fo(AC)</TableCell>
+                                        <TableCell>fe</TableCell>
+                                        <TableCell>fe(AC)</TableCell>
+                                        <TableCell>C</TableCell>
+                                        <TableCell>C(AC)</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {/* {lista.map((item, index) => ( */}
+
+                                    <TableRow key={'index'}>
+                                        <TableCell>1 - 10</TableCell>
+                                        <TableCell>frecuencia observada</TableCell>
+                                        <TableCell>frecuencia observada acumulada</TableCell>
+                                        <TableCell>frecuencia esperada</TableCell>
+                                        <TableCell>frecuencia esperada acumulada</TableCell>
+                                        <TableCell>frecuencia chi cuadrado</TableCell>
+                                        <TableCell>frecuencia chi cuadrado acumulada</TableCell>
+                                    </TableRow>
+
+                                    {/* ))} */}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Grid>
                 </Grid>
             </div>
