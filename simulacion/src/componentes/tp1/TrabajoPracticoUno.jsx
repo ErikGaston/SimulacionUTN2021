@@ -20,7 +20,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import './tabla.css';
 
 //logica
-import { dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, validarNumeros } from './logicaFunciones';
+import { chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal } from './logicaFunciones';
 import { Histograma } from './Histograma';
 
 const TrabajoPracticoUno = () => {
@@ -32,6 +32,12 @@ const TrabajoPracticoUno = () => {
     const [lista, setLista] = React.useState([])
     const [scroll, setScroll] = React.useState([])
     const [contador, setContador] = React.useState(0)
+
+    /*variables de chi cuadrado */
+    const [intervalos, setIntervalos] = React.useState([])
+    const [frecObservadaAcumulada, setFrecObservadaAcumulada] = React.useState(0)
+
+
 
     useEffect(() => {
         setScroll(lista.slice(0, contador))
@@ -63,6 +69,11 @@ const TrabajoPracticoUno = () => {
         if (name === 'constAditiva') {
             setConstAditiva(value)
         }
+    }
+
+    const acumularFrecuenciaObservada = (item) => {
+        setFrecObservadaAcumulada(prevState => prevState + item)
+        return frecObservadaAcumulada;
     }
 
     return (
@@ -132,6 +143,7 @@ const TrabajoPracticoUno = () => {
                             <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
                             <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
                             <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
+                            <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos)}>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
                     </Grid>
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
@@ -178,19 +190,23 @@ const TrabajoPracticoUno = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {/* {lista.map((item, index) => ( */}
-
-                                    <TableRow key={'index'}>
-                                        <TableCell>1 - 10</TableCell>
-                                        <TableCell>frecuencia observada</TableCell>
-                                        <TableCell>frecuencia observada acumulada</TableCell>
-                                        <TableCell>frecuencia esperada</TableCell>
-                                        <TableCell>frecuencia esperada acumulada</TableCell>
-                                        <TableCell>frecuencia chi cuadrado</TableCell>
-                                        <TableCell>frecuencia chi cuadrado acumulada</TableCell>
-                                    </TableRow>
-
-                                    {/* ))} */}
+                                    {intervalos.map((item, index) => (
+                                        <>
+                                            <TableRow key={'index'}>
+                                                <TableCell>{index + 1}</TableCell>
+                                                <TableCell>{item}</TableCell>
+                                                <TableCell>{() => {
+                                                    debugger
+                                                    setFrecObservadaAcumulada(prevState => prevState + item)
+                                                    return frecObservadaAcumulada + item;
+                                                }}</TableCell>
+                                                <TableCell>frecuencia esperada</TableCell>
+                                                <TableCell>frecuencia esperada acumulada</TableCell>
+                                                <TableCell>frecuencia chi cuadrado</TableCell>
+                                                <TableCell>frecuencia chi cuadrado acumulada</TableCell>
+                                            </TableRow>
+                                        </>
+                                    ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
