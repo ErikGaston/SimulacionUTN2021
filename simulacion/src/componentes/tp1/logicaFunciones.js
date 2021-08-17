@@ -68,6 +68,7 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
     }
 }
 
+//Listamos en la tabla hasta el final 50.000 a traves de los dos metodos
 export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
     //En caso de que se haya seleccionado el metodo congruencial multiplicativo
     if (metodo === 0) {
@@ -105,6 +106,7 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
 
 }
 
+//Listamos en la tabla a partir de dos valores DESDE - HASTA
 export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista) {
     //Generamos toda la lista sin renderizar
     listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
@@ -118,6 +120,7 @@ export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAdit
     setLista(lista.slice(desde - 1, hasta));
 }
 
+//Generamos numeros aleatorios
 export function nros_aleatorios(cantNros) {
     let numeros = [];
     for (let i = 0; i < cantNros; i++) {
@@ -126,11 +129,12 @@ export function nros_aleatorios(cantNros) {
     return numeros.sort(function (a, b) { return a - b });
 }
 
+//Lista de frecuencias
 export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOrdenados, setLista) {
     let cantNros = parseInt(prompt('Cantidad de numeros'));
     let cantIntervalos = parseInt(prompt('Cantidad de intervalos'));
 
-    cantidadIntervalos= cantIntervalos;
+    cantidadIntervalos = cantIntervalos;
 
     //Defino la lista en la que van a estar los intervalos
     var intervalo = [];
@@ -150,7 +154,7 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOr
         numeroConIndice.push(nrosOrdenados[0])
         setLista(nrosOrdenados)
         setNumerosOrdenados(numeroConIndice)
-        
+
     } else {
         nrosOrdenados = nros_congruencial(cantNros, semilla, CA, CM);
         let numeroConIndice = nrosOrdenados.slice();
@@ -187,6 +191,7 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOr
     console.log("Valor de chi cuadrado: " + chi.toFixed(3));
 }
 
+//Obtengo la lista de frecuencias observadas acumuladas
 export function acumularFrecuenciasObservadas(lista, indice) {
     let acum = 0;
     for (let i = 0; i <= indice; i++) {
@@ -195,11 +200,13 @@ export function acumularFrecuenciasObservadas(lista, indice) {
     return acum;
 }
 
+//Obtengo la lista de valores de chiCuadrado para la tabla
 export function calcularChi(lista, indice) {
     let chiCuadradoNumero = ((frecEsperada - lista[indice]) ** 2) / frecEsperada;
     return chiCuadradoNumero.toFixed(4);
 }
 
+//Obtengo la lista de chiCuadrado acumulado
 export function acumularChi(lista, indice) {
     let acum = 0;
     for (let i = 0; i <= indice; i++) {
@@ -208,6 +215,7 @@ export function acumularChi(lista, indice) {
     return acum.toFixed(4);
 }
 
+//ChiCuadrado con metodos congruencial
 export function nros_congruencial(cantNros, semilla, CA, CM) {
     let numeros = []
     for (let i = 0; i < cantNros; i++) {
@@ -221,14 +229,15 @@ export function nros_congruencial(cantNros, semilla, CA, CM) {
     return numeros;
 }
 
-export function obtenerIntervalos(cantIntervalos, indice){
+//Intervalos para la tabla 
+export function obtenerIntervalos(cantIntervalos, indice) {
     let limites = []
     let inferior = 0;
-    let superior = 1/cantIntervalos;
-    for (let i=1; i <= cantIntervalos; i++){
-        limites.push(inferior.toFixed(3) + '-' + superior.toFixed(3));
+    let superior = 1 / cantIntervalos;
+    for (let i = 1; i <= cantIntervalos; i++) {
+        limites.push(inferior.toFixed(3) + ' - ' + superior.toFixed(3));
         inferior = superior
-        superior += 1/cantIntervalos
+        superior += 1 / cantIntervalos
     }
     console.log(limites);
     return limites[indice];
