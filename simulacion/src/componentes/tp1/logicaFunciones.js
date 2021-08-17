@@ -242,3 +242,8 @@ export function obtenerIntervalos(cantIntervalos, indice) {
     console.log(limites);
     return limites[indice];
 }
+
+function contarDesdeHasta(indice){
+    let contador = desde + indice
+    return contador;
+}
