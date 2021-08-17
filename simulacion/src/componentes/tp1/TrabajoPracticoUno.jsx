@@ -20,8 +20,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import './tabla.css';
 
 //logica
-import { frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi } from './logicaFunciones';
-import { Histograma } from './Histograma';
+import { chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal } from './logicaFunciones';
+import { Histograma } from './histograma/Histograma';
 
 const TrabajoPracticoUno = () => {
 
@@ -37,12 +37,14 @@ const TrabajoPracticoUno = () => {
     const [intervalos, setIntervalos] = React.useState([])
     const [frecObservadaAcumulada, setFrecObservadaAcumulada] = React.useState(0)
 
+
+
     useEffect(() => {
         setScroll(lista.slice(0, contador))
     }, [lista])
 
     useEffect(() => {
-        setContador(prevState => prevState + 1000)
+        setContador(prevState => prevState + 5000)
     }, [scroll])
 
     const handleChangeMetodo = (e) => {
@@ -144,7 +146,33 @@ const TrabajoPracticoUno = () => {
                             <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos)}>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
                     </Grid>
-
+                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                        {/* Estilos de tabla que faltan*/}
+                        <div>
+                            <InfiniteScroll
+                                dataLength={scroll.length}
+                                next={() => setScroll(lista.slice(0, contador))}
+                                hasMore={true}
+                            >
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>N° de orden</th>
+                                            <th>Numeros aleatorios</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {scroll.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </InfiniteScroll>
+                        </div>
+                    </Grid>
 
                     {/* TABLA PARA CHI CUADRADO*/}
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
@@ -163,56 +191,33 @@ const TrabajoPracticoUno = () => {
                                 </TableHead>
                                 <TableBody>
                                     {intervalos.map((item, index) => (
-                                        <TableRow key={'index'}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{item}</TableCell>
-                                            <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell>
-                                            <TableCell>{frecEsperada}</TableCell>
-                                            <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell>
-                                            <TableCell>{calcularChi(intervalos, index)}</TableCell>
-                                            <TableCell>{acumularChi(intervalos, index)}</TableCell>
-                                        </TableRow>
+                                        <>
+                                            <TableRow key={'index'}>
+                                                <TableCell>{index + 1}</TableCell>
+                                                <TableCell>{item}</TableCell>
+                                                <TableCell>{() => {
+                                                    debugger
+                                                    setFrecObservadaAcumulada(prevState => prevState + item)
+                                                    return frecObservadaAcumulada + item;
+                                                }}</TableCell>
+                                                <TableCell>frecuencia esperada</TableCell>
+                                                <TableCell>frecuencia esperada acumulada</TableCell>
+                                                <TableCell>frecuencia chi cuadrado</TableCell>
+                                                <TableCell>frecuencia chi cuadrado acumulada</TableCell>
+                                            </TableRow>
+                                        </>
                                     ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid>
-                        <Histograma></Histograma>
-                    </Grid>
-
-                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        {/* Estilos de tabla que faltan*/}
-                        <div style={{height: "300px", overflowY: "auto !important" }}>
-                            <table style={{ width: "100%"}}>
-                                <thead>
-                                    <tr>
-                                        <th>N° de orden</th>
-                                        <th>Numeros aleatorios</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <InfiniteScroll
-                                        dataLength={scroll.length}
-                                        next={() => setScroll(lista.slice(0, contador))}
-                                        hasMore={true}
-                                    >
-                                        {scroll.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{item}</td>
-                                            </tr>
-                                        ))}
-                                    </InfiniteScroll>
-                                </tbody>
-                            </table>
-                        </div>
-                    </Grid>
                 </Grid>
             </div>
+            <Histograma 
+                data={intervalos} >
+            </Histograma>
         </>
     )
 }
 
 export default TrabajoPracticoUno;
-
