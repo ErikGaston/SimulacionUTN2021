@@ -4,6 +4,7 @@ var m = 50000;
 var contador = 0;
 var booleano = 0;
 var ultSemilla = 0;
+export var frecEsperada = 0;
 
 //Permite resetear los valores del generador
 export function dejarDeListar(setLista) {
@@ -153,7 +154,7 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
     }
 
     //Determino la frecuencia esperada
-    var frecEsperada = parseInt(nrosOrdenados.length / cantIntervalos);
+    frecEsperada = parseFloat(nrosOrdenados.length / cantIntervalos).toFixed(4);
 
     //Inicializo el valor de chi
     var chi = 0
@@ -169,6 +170,26 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
     console.log("Valor de chi cuadrado: " + chi.toFixed(3));
 }
 
+export function acumularFrecuenciasObservadas(lista, indice) {
+    let acum = 0;
+    for (let i = 0; i <= indice; i++) {
+        acum += lista[i]
+    }
+    return acum;
+}
+
+export function calcularChi(lista, indice) {
+    let chiCuadradoNumero = ((frecEsperada - lista[indice]) ** 2) / frecEsperada;
+    return chiCuadradoNumero.toFixed(4);
+}
+
+export function acumularChi(lista, indice) {
+    let acum = 0;
+    for (let i = 0; i <= indice; i++) {
+        acum += ((frecEsperada - lista[i]) ** 2) / frecEsperada;
+    }
+    return acum;
+}
 
 export function nros_congruencial(cantNros, semilla, CA, CM) {
     let numeros = []
