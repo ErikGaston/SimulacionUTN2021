@@ -83,7 +83,10 @@ const TrabajoPracticoUno = () => {
     return (
         <>
             <div >
-
+                <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
+                    <h2>Integrantes</h2>
+                    <h3>Andermatten Alexis - Caro Victoria - Rodriguez Milena - Martinez Erik - Sueldo Tomas</h3>
+                </Grid>
                 {/* Campo de Semilla, Constante multiplicativa y aditiva - INPUTS */}
                 <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
                     <Grid item xs={4}>
