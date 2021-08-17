@@ -21,6 +21,7 @@ export function generar20Numeros(metodo, semilla, CM, CA, num, setLista) {
     if (booleano === 1) {
         semilla = ultSemilla;
     }
+    //Verificar que no se haya alcanzado el limite del generador
     if (contador < m) {
         //En caso de que se haya el metodo congruencial multiplicativo
         if (metodo === 0) {
@@ -105,6 +106,7 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
 }
 
 export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista) {
+    //Generamos toda la lista sin renderizar
     listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
     console.log(lista);
     let desde = 0;
@@ -142,7 +144,7 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOr
     var paso = 1 / cantIntervalos;
 
     if (metodo === 0) {
-        //Se generan los números aleatorios
+        //Se generan los números aleatorios con el mecanisco provisto por el lenguaje
         var nrosOrdenados = nros_aleatorios(cantNros);
         let numeroConIndice = nrosOrdenados;
         numeroConIndice.push(nrosOrdenados[0])
@@ -213,4 +215,18 @@ export function nros_congruencial(cantNros, semilla, CA, CM) {
         numeros.push(n_aleatorio);
     }
     return numeros;
+}
+
+export function obtenerIntervalos(cantIntervalos, indice){
+    let limites = []
+    let inferior = 0;
+    let superior = 1/cantIntervalos;
+    console.log(superior)
+    for (let i=1; i <= cantIntervalos; i++){
+        limites.push(inferior.toFixed(3) + '-' + superior.toFixed(3));
+        inferior = superior
+        superior += 1/cantIntervalos
+    }
+    console.log(limites);
+    return limites[indice];
 }
