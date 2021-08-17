@@ -13,14 +13,14 @@ export function Histograma({ data }) {
             <Chart
                 chartType="Histogram"
                 width="100%"
-                height="200px"
+                height="400px"
                 loader={'Loading'}
                 data={newData}
                 options={{
                     legend: 'none',
                     vAxis: { title: 'Frecuencias' },
                     hAxis: { title: 'Intervalos' },
-                    histogram: { hideBucketItems: true, bucketSize: intervalo, maxNumBuckets: 1000, minValue: 0, maxValue: 1 },
+                    histogram: { hideBucketItems: true, bucketSize: intervalo, maxNumBuckets: 20, maxValue: 1},
                     backgroundColor: '#FFFFFF',
                 }}
             />

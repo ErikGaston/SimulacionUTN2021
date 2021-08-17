@@ -126,7 +126,7 @@ export function nros_aleatorios(cantNros) {
     return numeros.sort(function (a, b) { return a - b });
 }
 
-export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOrdenados) {
+export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOrdenados, setLista) {
     let cantNros = parseInt(prompt('Cantidad de numeros'));
     let cantIntervalos = parseInt(prompt('Cantidad de intervalos'));
 
@@ -146,14 +146,18 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOr
     if (metodo === 0) {
         //Se generan los números aleatorios con el mecanisco provisto por el lenguaje
         var nrosOrdenados = nros_aleatorios(cantNros);
-        let numeroConIndice = nrosOrdenados;
+        let numeroConIndice = nrosOrdenados.slice();
         numeroConIndice.push(nrosOrdenados[0])
+        setLista(nrosOrdenados)
         setNumerosOrdenados(numeroConIndice)
+        
     } else {
         nrosOrdenados = nros_congruencial(cantNros, semilla, CA, CM);
-        let numeroConIndice = nrosOrdenados;
+        let numeroConIndice = nrosOrdenados.slice();
         numeroConIndice.push(nrosOrdenados[0])
+        setLista(nrosOrdenados)
         setNumerosOrdenados(numeroConIndice)
+
     }
 
     //Cuenta la cantidad de numeros que aparecen en cada intervalo
@@ -221,7 +225,6 @@ export function obtenerIntervalos(cantIntervalos, indice){
     let limites = []
     let inferior = 0;
     let superior = 1/cantIntervalos;
-    console.log(superior)
     for (let i=1; i <= cantIntervalos; i++){
         limites.push(inferior.toFixed(3) + '-' + superior.toFixed(3));
         inferior = superior
