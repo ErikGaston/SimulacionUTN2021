@@ -21,7 +21,7 @@ import './tabla.css';
 
 //logica
 import { frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi } from './logicaFunciones';
-import { Histograma } from './Histograma';
+import { Histograma } from './histograma/Histograma';
 
 const TrabajoPracticoUno = () => {
 
@@ -177,9 +177,6 @@ const TrabajoPracticoUno = () => {
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid>
-                        <Histograma></Histograma>
-                    </Grid>
 
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
                         {/* Estilos de tabla que faltan*/}
@@ -210,6 +207,9 @@ const TrabajoPracticoUno = () => {
                     </Grid>
                 </Grid>
             </div>
+            <Histograma
+                data={intervalos} >
+            </Histograma>
         </>
     )
 }
