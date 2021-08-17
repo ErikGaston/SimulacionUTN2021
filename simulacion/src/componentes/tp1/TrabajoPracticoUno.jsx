@@ -39,12 +39,27 @@ const TrabajoPracticoUno = () => {
 
 
     useEffect(() => {
-        setScroll(lista.slice(0, contador))
+        if (lista.length > 0) setScroll(lista.slice(0, contador))
     }, [lista])
+
+    useEffect(() => {
+        setScroll(numerosOrdenados)
+    }, [numerosOrdenados])
 
     useEffect(() => {
         setContador(prevState => prevState + 3000)
     }, [scroll])
+
+    const setearScroll = () => {
+        debugger
+        if (lista.length !== 0) {
+            setScroll(lista.slice(0, contador))
+        }
+        else {
+            var eliminarUltimo = numerosOrdenados.slice(0, (numerosOrdenados.length - 1))
+            setScroll(eliminarUltimo)
+        }
+    }
 
 
     const handleChangeMetodo = (e) => {
@@ -138,7 +153,11 @@ const TrabajoPracticoUno = () => {
                             <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
                             <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
                             <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
-                            <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados)}>Hacer test chi cuadrado</Button>
+                            <Button onClick={() => {
+                                chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados)
+                                setLista([])
+                            }
+                            }>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
                     </Grid>
 
@@ -186,8 +205,8 @@ const TrabajoPracticoUno = () => {
                         {/* Estilos de tabla que faltan*/}
                         <div style={{ width: "100%", overflowY: "auto !important" }}>
                             <InfiniteScroll
-                                dataLength={scroll.length}
-                                next={() => setScroll(lista.slice(0, contador))}
+                                dataLength={scroll?.length}
+                                next={() => setearScroll()}
                                 hasMore={true}
                             >
                                 <table style={{ width: "100%" }}>
