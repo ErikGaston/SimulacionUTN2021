@@ -21,7 +21,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import './tabla.css';
 
 //Importa la logica
-import { obtenerIntervalos, frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi } from './logicaFunciones';
+import { obtenerIntervalos, frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi, contarDesdeHasta } from './logicaFunciones';
 import { Histograma } from './histograma/Histograma';
 
 const TrabajoPracticoUno = () => {
@@ -40,6 +40,9 @@ const TrabajoPracticoUno = () => {
     /*variables de chi cuadrado */
     const [intervalos, setIntervalos] = React.useState([])
     const [numerosOrdenados, setNumerosOrdenados] = React.useState([])
+
+    const [desdeHasta, setDesdeHasta] = React.useState(false)
+
 
     //Carga valor inicial de la lista en el scroll infinito
     useEffect(() => {
@@ -145,17 +148,37 @@ const TrabajoPracticoUno = () => {
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
-                            <Button onClick={() => dejarDeListar(setLista)}>Dejar de Listar</Button>
-                            <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
-                            <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
-                            <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
-                            <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)}>Hacer test chi cuadrado</Button>
+                            <Button onClick={() => {
+                                dejarDeListar(setLista)
+                                setDesdeHasta(false);
+                            }}>Dejar de Listar</Button>
+
+                            <Button onClick={() => {
+                                generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)
+                                setDesdeHasta(false);
+                            }}>Generar 20 numeros</Button>
+
+                            <Button onClick={() => {
+                                listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
+                                setDesdeHasta(false);
+                            }}>Listar hasta el final</Button>
+
+                            <Button onClick={() => {
+                                listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)
+                                setDesdeHasta(true);
+                            }}
+                            >Listar desde/hasta</Button>
+
+                            <Button onClick={() => {
+                                chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)
+                                setDesdeHasta(false);
+                            }}>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
                     </Grid>
 
                     {/* TABLA PARA CHI CUADRADO*/}
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        <TableContainer style={{ width: "900px", height: "400px", overflow: "auto" }}>
+                        <TableContainer style={{ width: "900px",  overflow: "auto" }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
@@ -197,7 +220,7 @@ const TrabajoPracticoUno = () => {
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
                         <div style={{ width: "100%", overflowY: "auto !important" }}>
                             <InfiniteScroll
-                                dataLength={scroll.length}
+                                dataLength={scroll?.length}
                                 next={() => setScroll(lista.slice(0, contador))}
                                 hasMore={true}
                             >
@@ -210,9 +233,15 @@ const TrabajoPracticoUno = () => {
                                     </thead>
                                     <tbody>
 
-                                        {scroll.map((item, index) => (
+                                        {scroll?.map((item, index) => (
                                             <tr key={index}>
-                                                <td>{index + 1}</td>
+                                                <td>
+                                                    {!desdeHasta ?
+                                                        (index + 1)
+                                                        :
+                                                        contarDesdeHasta(index)
+                                                    }
+                                                </td>
                                                 <td>{item}</td>
                                             </tr>
                                         ))}

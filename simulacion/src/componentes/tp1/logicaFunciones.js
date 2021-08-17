@@ -6,6 +6,7 @@ var booleano = 0;
 var ultSemilla = 0;
 export var frecEsperada = 0;
 export var cantidadIntervalos = 0;
+var desde = 0;
 
 //Permite resetear los valores del generador
 export function dejarDeListar(setLista) {
@@ -111,13 +112,19 @@ export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAdit
     //Generamos toda la lista sin renderizar
     listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
     console.log(lista);
-    let desde = 0;
+    desde = 0;
     let hasta = -1;
     while (desde > hasta) {
         desde = parseInt(prompt('Ingrese desde que número quiere listar'));
         hasta = parseInt(prompt('Ingrese hasta que número quiere listar'));
     }
     setLista(lista.slice(desde - 1, hasta));
+}
+
+//Valores desde hasta en la tabla
+export function contarDesdeHasta(indice) {
+    let contador = desde + indice
+    return contador;
 }
 
 //Generamos numeros aleatorios
