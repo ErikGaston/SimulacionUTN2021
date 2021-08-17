@@ -168,7 +168,7 @@ const TrabajoPracticoUno = () => {
                                             <TableCell>{item}</TableCell>
                                             <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell>
                                             <TableCell>{frecEsperada}</TableCell>
-                                            <TableCell>{frecEsperada * (index + 1)}</TableCell>
+                                            <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell>
                                             <TableCell>{calcularChi(intervalos, index)}</TableCell>
                                             <TableCell>{acumularChi(intervalos, index)}</TableCell>
                                         </TableRow>

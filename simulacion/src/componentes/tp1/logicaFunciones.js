@@ -1,10 +1,11 @@
 //Inicializacion de variables globales
 var lista = [];
-var m = 50000;
+var m = 99;
 var contador = 0;
 var booleano = 0;
 var ultSemilla = 0;
 export var frecEsperada = 0;
+export var cantidadIntervalos = 0;
 
 //Permite resetear los valores del generador
 export function dejarDeListar(setLista) {
@@ -125,6 +126,8 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
     let cantNros = parseInt(prompt('Cantidad de numeros'));
     let cantIntervalos = parseInt(prompt('Cantidad de intervalos'));
 
+    cantidadIntervalos= cantIntervalos;
+
     //Defino la lista en la que van a estar los intervalos
     var intervalo = [];
 
@@ -149,6 +152,7 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
             if ((nrosOrdenados[j] < (paso * i)) && (nrosOrdenados[j] > (paso * (i - 1)))) {
                 intervalo[i - 1] += 1;
                 setIntervalos([...intervalo])
+                // setFrecuenciasObservadas({...prevState, ['Frecuencia']: [intervalo]})
             }
         }
     }
@@ -188,7 +192,7 @@ export function acumularChi(lista, indice) {
     for (let i = 0; i <= indice; i++) {
         acum += ((frecEsperada - lista[i]) ** 2) / frecEsperada;
     }
-    return acum;
+    return acum.toFixed(4);
 }
 
 export function nros_congruencial(cantNros, semilla, CA, CM) {
@@ -201,5 +205,5 @@ export function nros_congruencial(cantNros, semilla, CA, CM) {
         let n_aleatorio = Math.floor((semilla / cantNros) * 1000000) / 1000000;
         numeros.push(n_aleatorio);
     }
-    return numeros.sort(function (a, b) { return a - b });
+    return numeros;
 }
