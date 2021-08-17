@@ -35,15 +35,17 @@ const TrabajoPracticoUno = () => {
 
     /*variables de chi cuadrado */
     const [intervalos, setIntervalos] = React.useState([])
-    const [frecObservadaAcumulada, setFrecObservadaAcumulada] = React.useState(0)
+    const [numerosOrdenados, setNumerosOrdenados] = React.useState([])
+
 
     useEffect(() => {
         setScroll(lista.slice(0, contador))
     }, [lista])
 
     useEffect(() => {
-        setContador(prevState => prevState + 1000)
+        setContador(prevState => prevState + 3000)
     }, [scroll])
+
 
     const handleChangeMetodo = (e) => {
         setMetodo(e.target.value)
@@ -67,11 +69,6 @@ const TrabajoPracticoUno = () => {
         if (name === 'constAditiva') {
             setConstAditiva(value)
         }
-    }
-
-    const acumularFrecuenciaObservada = (item) => {
-        setFrecObservadaAcumulada(prevState => prevState + item)
-        return frecObservadaAcumulada;
     }
 
     return (
@@ -141,7 +138,7 @@ const TrabajoPracticoUno = () => {
                             <Button onClick={() => generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)}>Generar 20 numeros</Button>
                             <Button onClick={() => listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar hasta el final</Button>
                             <Button onClick={() => listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)}>Listar desde/hasta</Button>
-                            <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos)}>Hacer test chi cuadrado</Button>
+                            <Button onClick={() => chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados)}>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
                     </Grid>
 
@@ -178,38 +175,44 @@ const TrabajoPracticoUno = () => {
                         </TableContainer>
                     </Grid>
 
+                    {/* Renderiza el histograma*/}
+                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
+                        <Histograma
+                            data={numerosOrdenados} >
+                        </Histograma>
+                    </Grid>
+
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
                         {/* Estilos de tabla que faltan*/}
-                        <div style={{height: "300px", overflowY: "auto !important" }}>
-                            <table style={{ width: "100%"}}>
-                                <thead>
-                                    <tr>
-                                        <th>N° de orden</th>
-                                        <th>Numeros aleatorios</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <InfiniteScroll
-                                        dataLength={scroll.length}
-                                        next={() => setScroll(lista.slice(0, contador))}
-                                        hasMore={true}
-                                    >
+                        <div style={{ width: "100%", overflowY: "auto !important" }}>
+                            <InfiniteScroll
+                                dataLength={scroll.length}
+                                next={() => setScroll(lista.slice(0, contador))}
+                                hasMore={true}
+                            >
+                                <table style={{ width: "100%" }}>
+                                    <thead>
+                                        <tr>
+                                            <th>N° de orden</th>
+                                            <th>Numeros aleatorios</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
                                         {scroll.map((item, index) => (
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{item}</td>
                                             </tr>
                                         ))}
-                                    </InfiniteScroll>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </InfiniteScroll>
                         </div>
                     </Grid>
                 </Grid>
             </div>
-            <Histograma
-                data={intervalos} >
-            </Histograma>
+
         </>
     )
 }

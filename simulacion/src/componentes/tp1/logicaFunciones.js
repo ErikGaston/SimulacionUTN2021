@@ -1,6 +1,6 @@
 //Inicializacion de variables globales
 var lista = [];
-var m = 99;
+var m = 50000;
 var contador = 0;
 var booleano = 0;
 var ultSemilla = 0;
@@ -100,6 +100,8 @@ export function listarHastaFinal(metodo, semilla, CM, CA, setLista) {
         //Actualizo la lista
         setLista([...lista])
     }
+    console.log(lista);
+
 }
 
 export function listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista) {
@@ -122,7 +124,7 @@ export function nros_aleatorios(cantNros) {
     return numeros.sort(function (a, b) { return a - b });
 }
 
-export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
+export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos, setNumerosOrdenados) {
     let cantNros = parseInt(prompt('Cantidad de numeros'));
     let cantIntervalos = parseInt(prompt('Cantidad de intervalos'));
 
@@ -142,8 +144,14 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
     if (metodo === 0) {
         //Se generan los números aleatorios
         var nrosOrdenados = nros_aleatorios(cantNros);
+        let numeroConIndice = nrosOrdenados;
+        numeroConIndice.push(nrosOrdenados[0])
+        setNumerosOrdenados(numeroConIndice)
     } else {
         nrosOrdenados = nros_congruencial(cantNros, semilla, CA, CM);
+        let numeroConIndice = nrosOrdenados;
+        numeroConIndice.push(nrosOrdenados[0])
+        setNumerosOrdenados(numeroConIndice)
     }
 
     //Cuenta la cantidad de numeros que aparecen en cada intervalo
@@ -152,7 +160,6 @@ export function chiCuadrado(metodo, semilla, CA, CM, setIntervalos) {
             if ((nrosOrdenados[j] < (paso * i)) && (nrosOrdenados[j] > (paso * (i - 1)))) {
                 intervalo[i - 1] += 1;
                 setIntervalos([...intervalo])
-                // setFrecuenciasObservadas({...prevState, ['Frecuencia']: [intervalo]})
             }
         }
     }
