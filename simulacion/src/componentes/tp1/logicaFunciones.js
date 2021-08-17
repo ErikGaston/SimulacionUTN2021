@@ -250,7 +250,7 @@ export function obtenerIntervalos(cantIntervalos, indice) {
     return limites[indice];
 }
 
-function contarDesdeHasta(indice){
+export function contarDesdeHasta(indice){
     let contador = desde + indice
     return contador;
 }
