@@ -14,6 +14,8 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TrabajoPracticoUno from './componentes/tp1/TrabajoPracticoUno';
+import TrabajoPracticoCuatro from './componentes/tp4/TrabajoPracticoCuatro';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,7 +97,7 @@ export default function App() {
         Item Three
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+      <TrabajoPracticoCuatro	/>
       </TabPanel>
       <TabPanel value={value} index={4}>
         Item Five

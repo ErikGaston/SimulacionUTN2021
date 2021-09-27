@@ -18,13 +18,13 @@ import TableRow from '@material-ui/core/TableRow';
 
 //Importa la libreria scroll infinito
 import InfiniteScroll from 'react-infinite-scroll-component';
-import './tabla.css';
+// import './tabla.css';
 
 //Importa la logica
-import { obtenerIntervalos, frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi, contarDesdeHasta } from './logicaFunciones';
-import { Histograma } from './histograma/Histograma';
+// import { obtenerIntervalos, frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi, contarDesdeHasta } from './logicaFunciones';
+// import { Histograma } from './histograma/Histograma';
 
-const TrabajoPracticoUno = () => {
+const TrabajoPracticoCuatro = () => {
 
     /*Variables de Metodos congruenciales*/
     const [semilla, setSemilla] = React.useState(1)
@@ -76,7 +76,7 @@ const TrabajoPracticoUno = () => {
     /* Metodo para setear Select de metodos conguenciales */
     const handleChangeMetodo = (e) => {
         setMetodo(e.target.value)
-        dejarDeListar(setLista);
+        // dejarDeListar(setLista);
         setContador(0)
     }
 
@@ -91,23 +91,23 @@ const TrabajoPracticoUno = () => {
                 <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
                     <Grid item xs={4}>
                         <TextField
-                            name={'semilla'}
+                            name={'Desde'}
                             value={semilla}
                             style={{ width: '300px' }}
-                            label="Semilla"
+                            label="Desde"
                             type="number"
                             variant="outlined"
                             placeholder={'Ingrese la semilla'}
                             onChange={handleChange()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
-                    </Grid>
+                    </Grid> 
                     <Grid item xs={4}>
                         <TextField
-                            name={'constMultiplicativa'}
+                            name={'Hasta'}
                             value={constMultiplicativa}
                             style={{ width: '300px' }}
-                            label="Constante multiplicativa"
+                            label="Hasta"
                             type="number"
                             defaultValue={1}
                             variant="outlined"
@@ -122,7 +122,7 @@ const TrabajoPracticoUno = () => {
                             name={'constAditiva'}
                             value={constAditiva}
                             style={{ width: '300px' }}
-                            label="Constante aditiva"
+                            label="Cantidad de simulaciones"
                             type="number"
                             defaultValue={1}
                             variant="outlined"
@@ -135,45 +135,34 @@ const TrabajoPracticoUno = () => {
 
                 {/* Select para metodos congruenciales */}
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
-                    <Grid item xs={4} style={{ marginTop: '40px' }}>
-                        <FormControl variant="outlined" >
-                            <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
-                            <Select
-                                label="Metodo"
-                                value={metodo}
-                                onChange={(e) => handleChangeMetodo(e)}>
-                                <MenuItem value={0}>Método de Congruencia Multiplicativos</MenuItem>
-                                <MenuItem value={1}>Método de Congruencia Mixto</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                    
 
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
                             <Button onClick={() => {
-                                dejarDeListar(setLista)
+                                // dejarDeListar(setLista)
                                 setDesdeHasta(false);
-                            }}>Dejar de Listar</Button>
+                            }}>Simular</Button>
 
                             <Button onClick={() => {
-                                generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)
+                                // generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)
                                 setDesdeHasta(false);
                             }}>Generar 20 numeros</Button>
 
                             <Button onClick={() => {
-                                listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
+                                // listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
                                 setDesdeHasta(false);
                             }}>Listar hasta el final</Button>
 
                             <Button onClick={() => {
-                                listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)
+                                // listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)
                                 setDesdeHasta(true);
                             }}
                             >Listar desde/hasta</Button>
 
                             <Button onClick={() => {
-                                chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)
+                                // chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)
                                 setDesdeHasta(false);
                             }}>Hacer test chi cuadrado</Button>
                         </ButtonGroup>
@@ -197,13 +186,13 @@ const TrabajoPracticoUno = () => {
                                 <TableBody>
                                     {intervalos.map((item, index) => (
                                         <TableRow key={'index'}>
-                                            <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell>
+                                            {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
                                             <TableCell>{item}</TableCell>
-                                            <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell>
-                                            <TableCell>{frecEsperada}</TableCell>
-                                            <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell>
-                                            <TableCell>{calcularChi(intervalos, index)}</TableCell>
-                                            <TableCell>{acumularChi(intervalos, index)}</TableCell>
+                                            {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
+                                            {/* <TableCell>{frecEsperada}</TableCell> */}
+                                            {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
+                                            {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
+                                            <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -211,13 +200,13 @@ const TrabajoPracticoUno = () => {
                         </TableContainer>
                     </Grid>
 
-                    {/* Renderiza el histograma*/}
+                    {/* Renderiza el histograma
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
                         {numerosOrdenados.length > 0 &&
                             <Histograma
                                 data={numerosOrdenados} >
                             </Histograma>}
-                    </Grid>
+                    </Grid> */}
 
                     {/* Reenderiza la tabla con scroll infinito */}
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
@@ -242,7 +231,8 @@ const TrabajoPracticoUno = () => {
                                                     {!desdeHasta ?
                                                         (index + 1)
                                                         :
-                                                        contarDesdeHasta(index)
+                                                        ""
+                                                        // contarDesdeHasta(index)
                                                     }
                                                 </td>
                                                 <td>{item}</td>
@@ -260,5 +250,5 @@ const TrabajoPracticoUno = () => {
     )
 }
 
-export default TrabajoPracticoUno;
+export default TrabajoPracticoCuatro;
 
