@@ -1,3 +1,5 @@
+import { ReportOutlined } from "@material-ui/icons";
+
 let tiempo = [];
 let frecObservada = [];
 
@@ -19,6 +21,34 @@ function exponencial(media) {
     let rnd = Math.random();
     let numero = ((-media) * Math.log(1 - rnd)).toFixed(2);
     return numero;
+}
+
+function sacarDistribucion (variable){
+    switch (variable.metodo) {
+        case 0:
+            return uniforme(variable.a, variable.b);
+        case 1:
+            return normal(variable.media, variable.desviacion);
+        case 2:
+            return exponencial(variable.media);
+        default:
+            break;
+    }
+}
+
+export function generarVectorEstado2 (variable1,variable2,variable3){
+    console.log("Variable 1 :", variable1)
+    console.log("Variable 2 :", variable2)
+    console.log("Variable 3 :", variable3)
+    
+    let t1 = sacarDistribucion(variable1);
+    let t2 = sacarDistribucion(variable2);
+    let t3 = sacarDistribucion(variable3);
+    
+    console.log("t1 :", t1)
+    console.log("t2 :", t2)
+    console.log("t3 :", t3)
+
 }
 
 

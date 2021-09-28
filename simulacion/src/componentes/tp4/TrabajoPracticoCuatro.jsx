@@ -20,9 +20,34 @@ import TableRow from '@material-ui/core/TableRow';
 import './tabla.css';
 
 //Importa la logica de funciones
-import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa } from './logicaFunciones';
+import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa, generarVectorEstado2 } from './logicaFunciones';
 
 const TrabajoPracticoCuatro = () => {
+
+    //Distrubuciones
+    const [t1, setT1] = React.useState({
+        metodo:0,
+        a:1,
+        b:2,
+        media:3,
+        desviacion:4 
+    })
+    const [t2, setT2] = React.useState({
+        metodo:1,
+        a:1,
+        b:2,
+        media:3,
+        desviacion:4 
+    })
+    const [t3, setT3] = React.useState({
+        metodo:2,
+        a:1,
+        b:2,
+        media:3,
+        desviacion:4 
+    })
+
+    //generarVectorEstado2(t1,t2,t3)();
 
     /*Variables de Cantidad de simulaciones */
     const [cantidad, setCantidad] = React.useState(1)
@@ -139,6 +164,7 @@ const TrabajoPracticoCuatro = () => {
                                 onChange={(e) => handleChangeDistribuciones(e)}>
                                 <MenuItem value={0}>Distribución Uniforme</MenuItem>
                                 <MenuItem value={1}>Distribución Normal</MenuItem>
+                                <MenuItem value={2}>Distribución Exponencial</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -173,7 +199,7 @@ const TrabajoPracticoCuatro = () => {
                                 />
                             </Grid>
                         </Grid>
-                        :
+                        : distribuciones === 1 ?
                         <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
                             <Grid item xs={4}>
                                 <TextField
@@ -204,12 +230,29 @@ const TrabajoPracticoCuatro = () => {
                                 />
                             </Grid>
                         </Grid>
+                        :
+                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                            <Grid item xs={4}>
+                                <TextField
+                                    name={'media'}
+                                    value={a}
+                                    style={{ width: '300px' }}
+                                    label="Media"
+                                    type="number"
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de la Media'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                />
+                            </Grid>
+                        </Grid>
                     }
 
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={distribuciones === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
                             <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
+                            <Button onClick={() => generarVectorEstado2(t1,t2,t3)}>Simular Nuevo</Button>
                             <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
                             <Button onClick={() => obtenerNoventa()}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
