@@ -1,5 +1,3 @@
-import { ReportOutlined } from "@material-ui/icons";
-
 let tiempo = [];
 let frecObservada = [];
 
@@ -23,7 +21,7 @@ function exponencial(media) {
     return numero;
 }
 
-function sacarDistribucion (variable){
+function sacarDistribucion(variable) {
     switch (variable.metodo) {
         case 0:
             return uniforme(variable.a, variable.b);
@@ -36,19 +34,35 @@ function sacarDistribucion (variable){
     }
 }
 
-export function generarVectorEstado2 (variable1,variable2,variable3){
-    console.log("Variable 1 :", variable1)
-    console.log("Variable 2 :", variable2)
-    console.log("Variable 3 :", variable3)
-    
+export function generarVectorEstado2(vectorAnterior, variable1, variable2, variable3, variable4, variable5) {
     let t1 = sacarDistribucion(variable1);
     let t2 = sacarDistribucion(variable2);
     let t3 = sacarDistribucion(variable3);
-    
-    console.log("t1 :", t1)
-    console.log("t2 :", t2)
-    console.log("t3 :", t3)
-
+    let t4 = sacarDistribucion(variable4);
+    let t5 = sacarDistribucion(variable5);
+    let tiempoTotal = parseFloat((Math.max(t3, t5)).toFixed(2));
+    let tiempoPromedio = parseFloat(((1 / (vectorAnterior[0] + 1)) * ((vectorAnterior[0] * vectorAnterior[7]) + tiempoTotal)).toFixed(2));
+    let maximo = 0;
+    let minimo = 0;
+    if (vectorAnterior[8] < tiempoTotal) {
+        maximo = tiempoTotal;
+    }
+    else {
+        maximo = vectorAnterior[8];
+    }
+    if (vectorAnterior[9] > tiempoTotal) {
+        minimo = tiempoTotal;
+    }
+    else {
+        minimo = vectorAnterior[9];
+    }
+    let contador = vectorAnterior[10]
+    if (tiempoTotal <= 45) {
+        contador += 1
+    }
+    let prob45 = (contador / (vectorAnterior[0])).toFixed(2);
+    let nuevoVector = [vectorAnterior[0] + 1, t1, t2, t3, t4, t5, tiempoTotal, tiempoPromedio, maximo, minimo, contador, prob45];
+    return nuevoVector
 }
 
 
@@ -101,6 +115,20 @@ export function scriptPrincipal(cantSimulaciones) {
     if (cantSimulaciones > 0) {
         for (let i = 0; i < cantSimulaciones; i++) {
             vector = generarVectorEstado(vector);
+            if (i < 9999 || (((i + 1) % 10000) == 0)) {
+                rellenarTabla(vector);
+            }
+        }
+    }
+}
+
+export function scriptPrincipal2(cantSimulaciones, t1, t2, t3, t4, t5) {
+    vaciarTabla()
+    let vector = [0, 0, 0, 0, 0, 0, 0, 0, 0, 999999999, 0, 0];
+    rellenarTabla(vector)
+    if (cantSimulaciones > 0) {
+        for (let i = 0; i < cantSimulaciones; i++) {
+            vector = generarVectorEstado2(vector, t1, t2, t3, t4, t5);
             if (i < 9999 || (((i + 1) % 10000) == 0)) {
                 rellenarTabla(vector);
             }
