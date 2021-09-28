@@ -97,6 +97,7 @@ const TrabajoPracticoCuatro = () => {
                 </Grid>
                 {/* Campo de Semilla, Constante multiplicativa y aditiva - INPUTS */}
                 <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+
                     <Grid item xs={4}>
                         <TextField
                             name={'Desde'}
@@ -143,8 +144,81 @@ const TrabajoPracticoCuatro = () => {
 
                 {/* Select para metodos congruenciales */}
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
+                     <Grid item xs={4} style={{ marginTop: '40px' }}>
+                        <FormControl variant="outlined" >
+                            <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
+                            <Select
+                                label="Metodo"
+                                value={metodo}
+                                onChange={(e) => handleChangeMetodo(e)}>
+                                <MenuItem value={0}>Distribución Uniforme</MenuItem>
+                                <MenuItem value={1}>Distribución Normal</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    {metodo === 0 ? 
+                    <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                        <Grid item xs={4}>
+                            <TextField
+                                name={'a'}
+                                value={semilla}
+                                style={{ width: '300px' }}
+                                label="a"
+                                type="number"
+                                variant="outlined"
+                                placeholder={'Ingrese la semilla'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                            />
+                        </Grid> 
+                        <Grid item xs={4}>
+                            <TextField
+                                name={'b'}
+                                value={constMultiplicativa}
+                                style={{ width: '300px' }}
+                                label="b"
+                                type="number"
+                                defaultValue={1}
+                                variant="outlined"
+                                placeholder={'Ingrese la constante multiplicativa'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
+                            />
+                        </Grid>
+                    </Grid>
+                    : 
+                    <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                        <Grid item xs={4}>
+                            <TextField
+                                name={'media'}
+                                value={semilla}
+                                style={{ width: '300px' }}
+                                label="media"
+                                type="number"
+                                variant="outlined"
+                                placeholder={'Ingrese la semilla'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                            />
+                        </Grid> 
+                        <Grid item xs={4}>
+                            <TextField
+                                name={'desviacionEstandar'}
+                                value={constMultiplicativa}
+                                style={{ width: '300px' }}
+                                label="desviacion Estandar"
+                                type="number"
+                                defaultValue={1}
+                                variant="outlined"
+                                placeholder={'Ingrese la constante multiplicativa'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
+                            />
+                        </Grid>
+                    </Grid>
+                    }
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
@@ -153,58 +227,88 @@ const TrabajoPracticoCuatro = () => {
                             }}>Simular</Button>
 
                             <Button onClick={() => {
-                                // generar20Numeros(metodo, semilla, constMultiplicativa, constAditiva, 20, setLista)
-                                setDesdeHasta(false);
-                            }}>Generar 20 numeros</Button>
-
-                            <Button onClick={() => {
-                                // listarHastaFinal(metodo, semilla, constMultiplicativa, constAditiva, setLista)
-                                setDesdeHasta(false);
-                            }}>Listar hasta el final</Button>
-
-                            <Button onClick={() => {
                                 // listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)
                                 setDesdeHasta(true);
                             }}
-                            >Listar desde/hasta</Button>
+                            >Desde/hasta</Button>
 
                             <Button onClick={() => {
                                 // chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)
                                 setDesdeHasta(false);
-                            }}>Hacer test chi cuadrado</Button>
+                            }}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
                     </Grid>
-
                     {/* TABLA PARA CHI CUADRADO*/}
-                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        <TableContainer style={{ width: "900px", overflow: "auto" }}>
-                            <Table stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell >Intervalo</TableCell>
-                                        <TableCell>fo</TableCell>
-                                        <TableCell>fo(AC)</TableCell>
-                                        <TableCell>fe</TableCell>
-                                        <TableCell>fe(AC)</TableCell>
-                                        <TableCell>C</TableCell>
-                                        <TableCell>C(AC)</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {intervalos.map((item, index) => (
-                                        <TableRow key={'index'}>
-                                            {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
-                                            <TableCell>{item}</TableCell>
-                                            {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
-                                            {/* <TableCell>{frecEsperada}</TableCell> */}
-                                            {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
-                                            {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
-                                            <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <Grid container direction={'row'} justifyContent={'space-between'}>
+                        <Grid item xs={7}>
+                            <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
+                                <TableContainer style={{ overflow: "auto" }}>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell >#</TableCell>
+                                                <TableCell>T1</TableCell>
+                                                <TableCell>T2</TableCell>
+                                                <TableCell>T3</TableCell>
+                                                <TableCell>T4</TableCell>
+                                                <TableCell>T5</TableCell>
+                                                <TableCell>Tiempo Total</TableCell>
+                                                <TableCell>Tiempo Promedio</TableCell>
+                                                <TableCell>Maximo</TableCell>
+                                                <TableCell>Minimo</TableCell>
+                                                <TableCell>Probabilidad(45)</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {intervalos.map((item, index) => (
+                                                <TableRow key={'index'}>
+                                                    {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
+                                                    <TableCell>{item}</TableCell>
+                                                    {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
+                                                    {/* <TableCell>{frecEsperada}</TableCell> */}
+                                                    {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
+                                                    {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
+                                                    <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
+
+                        </Grid>
+                        <Grid item xs={4}>
+                        <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
+                                <TableContainer style={{ overflow: "auto" }}>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell >#</TableCell>
+                                                <TableCell>Lim Inferior</TableCell>
+                                                <TableCell>Lim Superior</TableCell>
+                                                <TableCell>F. Observada</TableCell>
+                                                <TableCell>Probabilidad</TableCell>
+                                                <TableCell>Probabilidad Acumulada</TableCell>
+                                               
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {intervalos.map((item, index) => (
+                                                <TableRow key={'index'}>
+                                                    {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
+                                                    <TableCell>{item}</TableCell>
+                                                    {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
+                                                    {/* <TableCell>{frecEsperada}</TableCell> */}
+                                                    {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
+                                                    {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
+                                                    <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
+                        </Grid>
                     </Grid>
 
                     {/* Renderiza el histograma
@@ -215,41 +319,6 @@ const TrabajoPracticoCuatro = () => {
                             </Histograma>}
                     </Grid> */}
 
-                    {/* Reenderiza la tabla con scroll infinito */}
-                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        <div style={{ width: "100%", overflowY: "auto !important" }}>
-                            <InfiniteScroll
-                                dataLength={scroll?.length}
-                                next={() => setScroll(lista.slice(0, contador))}
-                                hasMore={true}
-                            >
-                                <table style={{ width: "100%" }}>
-                                    <thead>
-                                        <tr>
-                                            <th>N° de orden</th>
-                                            <th>Numeros aleatorios</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        {scroll?.map((item, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    {!desdeHasta ?
-                                                        (index + 1)
-                                                        :
-                                                        ""
-                                                        // contarDesdeHasta(index)
-                                                    }
-                                                </td>
-                                                <td>{item}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </InfiniteScroll>
-                        </div>
-                    </Grid>
                 </Grid>
             </div>
 
