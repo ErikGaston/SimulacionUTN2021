@@ -21,16 +21,28 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 // import './tabla.css';
 
 //Importa la logica
-// import { obtenerIntervalos, frecEsperada, acumularFrecuenciasObservadas, chiCuadrado, dejarDeListar, generar20Numeros, listarDesdeHasta, listarHastaFinal, calcularChi, acumularChi, contarDesdeHasta } from './logicaFunciones';
+import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa } from './logicaFunciones';
 // import { Histograma } from './histograma/Histograma';
 
 const TrabajoPracticoCuatro = () => {
 
-    /*Variables de Metodos congruenciales*/
-    const [semilla, setSemilla] = React.useState(1)
+    /*Variables de DESDE-HASTA */
+    const [cantidad, setCantidad] = React.useState(1)
+
+    /*Variables de DESDE-HASTA */
+    const [desde, setDesde] = React.useState(1)
+    const [hasta, setHasta] = React.useState(1)
+
+    /*Variable de distribucion*/
     const [metodo, setMetodo] = React.useState(0)
-    const [constMultiplicativa, setConstMultiplicativa] = React.useState(1)
-    const [constAditiva, setConstAditiva] = React.useState(1)
+
+    /*Variable de distribucion UNIFORME*/
+    const [a, setA] = React.useState(1)
+    const [b, setB] = React.useState(1)
+
+    /*Variable de distribucion NORMAL*/
+    const [media, setMedia] = React.useState(1)
+    const [desvEstandar, setDesvEstandar] = React.useState(1)
 
     /*Variables de Tabla con scroll infinito*/
     const [lista, setLista] = React.useState([])
@@ -57,19 +69,15 @@ const TrabajoPracticoCuatro = () => {
     /* Metodo para setear Semilla, Constante multiplicativa y aditiva */
     const handleChange = () => e => {
         const { name, value } = e.target
-        if (name === 'semilla') {
-            if (value > 50000) {
-                alert('El valor de la semilla no puede ser mayor a la longitud del generador (50000).');
-                setSemilla(1);
-            } else {
-                setSemilla(value)
+        if (name === 'Desde') {
+            setDesde(value)
+        } else {
+            if (name === 'Hasta') {
+                setHasta(value)
             }
-        }
-        if (name === 'constMultiplicativa') {
-            setConstMultiplicativa(value)
-        }
-        if (name === 'constAditiva') {
-            setConstAditiva(value)
+            else {
+                setCantidad(value)
+            }
         }
     }
 
@@ -83,7 +91,7 @@ const TrabajoPracticoCuatro = () => {
     return (
         <>
             <div >
-                <Grid style={{ paddingTop: '20px', flexDirection:"column" }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
+                <Grid style={{ paddingTop: '20px', flexDirection: "column" }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
                     <h2>Integrantes</h2>
                     <h3>Andermatten Alexis - Caro Victoria - Rodriguez Milena - Martinez Erik - Sueldo Tomas</h3>
                 </Grid>
@@ -101,7 +109,7 @@ const TrabajoPracticoCuatro = () => {
                             onChange={handleChange()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
-                    </Grid> 
+                    </Grid>
                     <Grid item xs={4}>
                         <TextField
                             name={'Hasta'}
@@ -119,7 +127,7 @@ const TrabajoPracticoCuatro = () => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            name={'constAditiva'}
+                            name={'cantidad'}
                             value={constAditiva}
                             style={{ width: '300px' }}
                             label="Cantidad de simulaciones"
@@ -135,14 +143,13 @@ const TrabajoPracticoCuatro = () => {
 
                 {/* Select para metodos congruenciales */}
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
-                    
+
 
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
                             <Button onClick={() => {
-                                // dejarDeListar(setLista)
-                                setDesdeHasta(false);
+                                scriptPrincipal(cantidad)
                             }}>Simular</Button>
 
                             <Button onClick={() => {
@@ -170,7 +177,7 @@ const TrabajoPracticoCuatro = () => {
 
                     {/* TABLA PARA CHI CUADRADO*/}
                     <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        <TableContainer style={{ width: "900px",  overflow: "auto" }}>
+                        <TableContainer style={{ width: "900px", overflow: "auto" }}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow>
