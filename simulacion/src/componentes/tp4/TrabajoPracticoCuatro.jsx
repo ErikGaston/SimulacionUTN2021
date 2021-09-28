@@ -16,17 +16,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-//Importa la libreria scroll infinito
-import InfiniteScroll from 'react-infinite-scroll-component';
-// import './tabla.css';
+/*Estilos de tabla*/
+import './tabla.css';
 
-//Importa la logica
+//Importa la logica de funciones
 import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa } from './logicaFunciones';
-// import { Histograma } from './histograma/Histograma';
 
 const TrabajoPracticoCuatro = () => {
 
-    /*Variables de DESDE-HASTA */
+    /*Variables de Cantidad de simulaciones */
     const [cantidad, setCantidad] = React.useState(1)
 
     /*Variables de DESDE-HASTA */
@@ -34,7 +32,7 @@ const TrabajoPracticoCuatro = () => {
     const [hasta, setHasta] = React.useState(1)
 
     /*Variable de distribucion*/
-    const [metodo, setMetodo] = React.useState(0)
+    const [distribuciones, setDistribuciones] = React.useState(0)
 
     /*Variable de distribucion UNIFORME*/
     const [a, setA] = React.useState(1)
@@ -44,48 +42,37 @@ const TrabajoPracticoCuatro = () => {
     const [media, setMedia] = React.useState(1)
     const [desvEstandar, setDesvEstandar] = React.useState(1)
 
-    /*Variables de Tabla con scroll infinito*/
-    const [lista, setLista] = React.useState([])
-    const [scroll, setScroll] = React.useState([])
-    const [contador, setContador] = React.useState(0)
-
-    /*variables de chi cuadrado */
-    const [intervalos, setIntervalos] = React.useState([])
-    const [numerosOrdenados, setNumerosOrdenados] = React.useState([])
-
-    const [desdeHasta, setDesdeHasta] = React.useState(false)
-
-
-    //Carga valor inicial de la lista en el scroll infinito
-    useEffect(() => {
-        setScroll(lista.slice(0, contador))
-    }, [lista])
-
-    //Carga valor del contador que va a ir mostrando la tabla para traer datos en la lista
-    useEffect(() => {
-        setContador(prevState => prevState + 3000)
-    }, [scroll])
-
-    /* Metodo para setear Semilla, Constante multiplicativa y aditiva */
+    /* Metodo para setear Desde, Hasta y Cantidad de simulaciones */
     const handleChange = () => e => {
         const { name, value } = e.target
-        if (name === 'Desde') {
-            setDesde(value)
-        } else {
-            if (name === 'Hasta') {
+        switch (name) {
+            case 'Desde':
+                setDesde(value)
+                break;
+            case 'Hasta':
                 setHasta(value)
-            }
-            else {
+                break;
+            case 'Cantidad':
                 setCantidad(value)
-            }
+                break;
+            case 'a':
+                setA(value)
+                break;
+            case 'b':
+                setB(value)
+                break;
+            case 'Media':
+                setMedia(value)
+                break;
+            case 'DesvEstandar':
+                setDesvEstandar(value)
+                break;
         }
     }
 
-    /* Metodo para setear Select de metodos conguenciales */
-    const handleChangeMetodo = (e) => {
-        setMetodo(e.target.value)
-        // dejarDeListar(setLista);
-        setContador(0)
+    /* Metodo para setear Select de distribuciones */
+    const handleChangeDistribuciones = (e) => {
+        setDistribuciones(e.target.value)
     }
 
     return (
@@ -95,18 +82,17 @@ const TrabajoPracticoCuatro = () => {
                     <h2>Integrantes</h2>
                     <h3>Andermatten Alexis - Caro Victoria - Rodriguez Milena - Martinez Erik - Sueldo Tomas</h3>
                 </Grid>
-                {/* Campo de Semilla, Constante multiplicativa y aditiva - INPUTS */}
+                {/* Campo de Desde, Hasta, Cantidad, Uniforme y Normal - INPUTS */}
                 <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-
                     <Grid item xs={4}>
                         <TextField
                             name={'Desde'}
-                            value={semilla}
+                            value={desde}
                             style={{ width: '300px' }}
                             label="Desde"
                             type="number"
                             variant="outlined"
-                            placeholder={'Ingrese la semilla'}
+                            placeholder={'Ingrese valor de Desde'}
                             onChange={handleChange()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
@@ -114,13 +100,13 @@ const TrabajoPracticoCuatro = () => {
                     <Grid item xs={4}>
                         <TextField
                             name={'Hasta'}
-                            value={constMultiplicativa}
+                            value={hasta}
                             style={{ width: '300px' }}
                             label="Hasta"
                             type="number"
                             defaultValue={1}
                             variant="outlined"
-                            placeholder={'Ingrese la constante multiplicativa'}
+                            placeholder={'Ingrese valor de Hasta'}
                             onChange={handleChange()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
@@ -128,14 +114,14 @@ const TrabajoPracticoCuatro = () => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            name={'cantidad'}
-                            value={constAditiva}
+                            name={'Cantidad'}
+                            value={cantidad}
                             style={{ width: '300px' }}
                             label="Cantidad de simulaciones"
                             type="number"
                             defaultValue={1}
                             variant="outlined"
-                            placeholder={'Ingrese la constante aditiva'}
+                            placeholder={'Ingrese la cantidad de simulaciones'}
                             onChange={handleChange()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
@@ -144,108 +130,99 @@ const TrabajoPracticoCuatro = () => {
 
                 {/* Select para metodos congruenciales */}
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
-                     <Grid item xs={4} style={{ marginTop: '40px' }}>
+                    <Grid item xs={4} style={{ marginTop: '40px' }}>
                         <FormControl variant="outlined" >
-                            <InputLabel id="demo-simple-select-outlined-label">Metodo</InputLabel>
+                            <InputLabel id="demo-simple-select-outlined-label">Distribuciones</InputLabel>
                             <Select
-                                label="Metodo"
-                                value={metodo}
-                                onChange={(e) => handleChangeMetodo(e)}>
+                                label="Distribuciones"
+                                value={distribuciones}
+                                onChange={(e) => handleChangeDistribuciones(e)}>
                                 <MenuItem value={0}>Distribución Uniforme</MenuItem>
                                 <MenuItem value={1}>Distribución Normal</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                    {metodo === 0 ? 
-                    <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                        <Grid item xs={4}>
-                            <TextField
-                                name={'a'}
-                                value={semilla}
-                                style={{ width: '300px' }}
-                                label="a"
-                                type="number"
-                                variant="outlined"
-                                placeholder={'Ingrese la semilla'}
-                                onChange={handleChange()}
-                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                            />
-                        </Grid> 
-                        <Grid item xs={4}>
-                            <TextField
-                                name={'b'}
-                                value={constMultiplicativa}
-                                style={{ width: '300px' }}
-                                label="b"
-                                type="number"
-                                defaultValue={1}
-                                variant="outlined"
-                                placeholder={'Ingrese la constante multiplicativa'}
-                                onChange={handleChange()}
-                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                    {distribuciones === 0 ?
+                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                            <Grid item xs={4}>
+                                <TextField
+                                    name={'a'}
+                                    value={a}
+                                    style={{ width: '300px' }}
+                                    label="a"
+                                    type="number"
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de A'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    name={'b'}
+                                    value={b}
+                                    style={{ width: '300px' }}
+                                    label="b"
+                                    type="number"
+                                    defaultValue={1}
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de B'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
-                            />
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    : 
-                    <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                        <Grid item xs={4}>
-                            <TextField
-                                name={'media'}
-                                value={semilla}
-                                style={{ width: '300px' }}
-                                label="media"
-                                type="number"
-                                variant="outlined"
-                                placeholder={'Ingrese la semilla'}
-                                onChange={handleChange()}
-                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                            />
-                        </Grid> 
-                        <Grid item xs={4}>
-                            <TextField
-                                name={'desviacionEstandar'}
-                                value={constMultiplicativa}
-                                style={{ width: '300px' }}
-                                label="desviacion Estandar"
-                                type="number"
-                                defaultValue={1}
-                                variant="outlined"
-                                placeholder={'Ingrese la constante multiplicativa'}
-                                onChange={handleChange()}
-                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                        :
+                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                            <Grid item xs={4}>
+                                <TextField
+                                    name={'Media'}
+                                    value={media}
+                                    style={{ width: '300px' }}
+                                    label="Media"
+                                    type="number"
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de Media'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    name={'DesvEstandar'}
+                                    value={desvEstandar}
+                                    style={{ width: '300px' }}
+                                    label="Desviacion Estandar"
+                                    type="number"
+                                    defaultValue={1}
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de Desviacion Estandar'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
-                            />
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
                     }
+
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
-                        <ButtonGroup variant="contained" color={metodo === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
-                            <Button onClick={() => {
-                                scriptPrincipal(cantidad)
-                            }}>Simular</Button>
-
-                            <Button onClick={() => {
-                                // listarDesdeHasta(metodo, semilla, constMultiplicativa, constAditiva, setLista)
-                                setDesdeHasta(true);
-                            }}
-                            >Desde/hasta</Button>
-
-                            <Button onClick={() => {
-                                // chiCuadrado(metodo, semilla, constAditiva, constMultiplicativa, setIntervalos, setNumerosOrdenados, setLista)
-                                setDesdeHasta(false);
-                            }}>Obtener fecha de probabilidad 90%</Button>
+                        <ButtonGroup variant="contained" color={distribuciones === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
+                            <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
+                            <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
+                            <Button onClick={() => obtenerNoventa()}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
                     </Grid>
-                    {/* TABLA PARA CHI CUADRADO*/}
-                    <Grid container direction={'row'} justifyContent={'space-between'}>
+
+                    {/* TABLA DE SIMULACIONES */}
+                    <Grid container direction={'row'} justifyContent={'space-between'} >
                         <Grid item xs={7}>
                             <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
                                 <TableContainer style={{ overflow: "auto" }}>
-                                    <Table stickyHeader aria-label="sticky table">
+                                    <Table stickyHeader aria-label="sticky table" >
                                         <TableHead>
-                                            <TableRow>
+                                            <TableRow id={'tableRow'}>
                                                 <TableCell >#</TableCell>
                                                 <TableCell>T1</TableCell>
                                                 <TableCell>T2</TableCell>
@@ -256,69 +233,39 @@ const TrabajoPracticoCuatro = () => {
                                                 <TableCell>Tiempo Promedio</TableCell>
                                                 <TableCell>Maximo</TableCell>
                                                 <TableCell>Minimo</TableCell>
+                                                <TableCell>Contar Proporcion</TableCell>
                                                 <TableCell>Probabilidad(45)</TableCell>
                                             </TableRow>
                                         </TableHead>
-                                        <TableBody>
-                                            {intervalos.map((item, index) => (
-                                                <TableRow key={'index'}>
-                                                    {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
-                                                    <TableCell>{item}</TableCell>
-                                                    {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
-                                                    {/* <TableCell>{frecEsperada}</TableCell> */}
-                                                    {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
-                                                    {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
-                                                    <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
-                                                </TableRow>
-                                            ))}
+                                        <TableBody id="cuerpoTabla">
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
                             </Grid>
-
                         </Grid>
+
+                        {/* TABLA DE FRECUENCIAS */}
                         <Grid item xs={4}>
-                        <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
+                            <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
                                 <TableContainer style={{ overflow: "auto" }}>
                                     <Table stickyHeader aria-label="sticky table">
                                         <TableHead>
-                                            <TableRow>
+                                            <TableRow id={'tableRow'}>
                                                 <TableCell >#</TableCell>
                                                 <TableCell>Lim Inferior</TableCell>
                                                 <TableCell>Lim Superior</TableCell>
                                                 <TableCell>F. Observada</TableCell>
                                                 <TableCell>Probabilidad</TableCell>
                                                 <TableCell>Probabilidad Acumulada</TableCell>
-                                               
                                             </TableRow>
                                         </TableHead>
-                                        <TableBody>
-                                            {intervalos.map((item, index) => (
-                                                <TableRow key={'index'}>
-                                                    {/* <TableCell>{obtenerIntervalos(intervalos.length, index)}</TableCell> */}
-                                                    <TableCell>{item}</TableCell>
-                                                    {/* <TableCell>{acumularFrecuenciasObservadas(intervalos, index)}</TableCell> */}
-                                                    {/* <TableCell>{frecEsperada}</TableCell> */}
-                                                    {/* <TableCell>{(frecEsperada * (index + 1)).toFixed(4)}</TableCell> */}
-                                                    {/* <TableCell>{calcularChi(intervalos, index)}</TableCell>
-                                                    <TableCell>{acumularChi(intervalos, index)}</TableCell> */}
-                                                </TableRow>
-                                            ))}
+                                        <TableBody id="cuerpoTabla2">
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
                             </Grid>
                         </Grid>
                     </Grid>
-
-                    {/* Renderiza el histograma
-                    <Grid item style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }} xs={12} >
-                        {numerosOrdenados.length > 0 &&
-                            <Histograma
-                                data={numerosOrdenados} >
-                            </Histograma>}
-                    </Grid> */}
-
                 </Grid>
             </div>
 
