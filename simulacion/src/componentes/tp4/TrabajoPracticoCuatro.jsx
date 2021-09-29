@@ -15,40 +15,160 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import { Typography } from '@material-ui/core';
 import { Line } from 'react-chartjs-2';
 
 /*Estilos de tabla*/
 import './tabla.css';
 
 //Importa la logica de funciones
-import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa, generarVectorEstado2, tiempoP } from './logicaFunciones';
+import { scriptPrincipal, desdeHasta, obtenerNoventa, scriptPrincipal2, tiempoP } from './logicaFunciones';
 
 const TrabajoPracticoCuatro = () => {
 
     //Distrubuciones
     const [t1, setT1] = React.useState({
         metodo: 0,
-        a: 1,
-        b: 2,
-        media: 3,
-        desviacion: 4
+        a: 0,
+        b: 0,
+        media: 0,
+        desviacion: 0
     })
     const [t2, setT2] = React.useState({
-        metodo: 1,
-        a: 1,
-        b: 2,
-        media: 3,
-        desviacion: 4
+        metodo: 0,
+        a: 0,
+        b: 0,
+        media: 0,
+        desviacion: 0,
     })
     const [t3, setT3] = React.useState({
-        metodo: 2,
-        a: 1,
-        b: 2,
-        media: 3,
-        desviacion: 4
+        metodo: 0,
+        a: 0,
+        b: 0,
+        media: 0,
+        desviacion: 0,
+    })
+    const [t4, setT4] = React.useState({
+        metodo: 0,
+        a: 0,
+        b: 0,
+        media: 0,
+        desviacion: 0
+    })
+    const [t5, setT5] = React.useState({
+        metodo: 0,
+        a: 0,
+        b: 0,
+        media: 0,
+        desviacion: 0
     })
 
+    const variables = (setVariable, variable, titulo) => {
+
+        const handleChange = () => e => {
+            const { name, value } = e.target;
+            setVariable(data => ({ ...data, [name]: parseInt(value) }))
+        }
+
+        return (
+            <Grid style={{ paddingTop: '20px' }} container direction={'row'} alignItems={'center'}>
+                <Grid item xs={1}>
+                    <Typography style={{ marginLeft: '50%', fontWeight: 600 }}>{titulo}:</Typography>
+                </Grid>
+                <Grid item xs={4} >
+                    <FormControl variant="outlined" >
+                        <InputLabel id="demo-simple-select-outlined-label">Distribuciones</InputLabel>
+                        <Select
+                            label="Distribuciones"
+                            value={variable.metodo}
+                            onChange={(e) => setVariable(data => ({ ...data, metodo: e.target.value }))}>
+                            <MenuItem value={0}>Distribución Uniforme</MenuItem>
+                            <MenuItem value={1}>Distribución Normal</MenuItem>
+                            <MenuItem value={2}>Distribución Exponencial</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                {variable.metodo === 0 ?
+                    <>
+                        <Grid item xs={3}>
+                            <TextField
+                                name={'a'}
+                                value={variable.a}
+                                style={{ width: '300px' }}
+                                label="a"
+                                type="number"
+                                variant="outlined"
+                                placeholder={'Ingrese valor de A'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <TextField
+                                name={'b'}
+                                value={variable.b}
+                                style={{ width: '300px' }}
+                                label="b"
+                                type="number"
+                                variant="outlined"
+                                placeholder={'Ingrese valor de B'}
+                                onChange={handleChange()}
+                                onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+
+                            />
+                        </Grid>
+                    </>
+                    : variable.metodo === 1 ?
+                        <>
+                            <Grid item xs={3}>
+                                <TextField
+                                    name={'media'}
+                                    value={variable.media}
+                                    style={{ width: '300px' }}
+                                    label="Media"
+                                    type="number"
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de Media'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <TextField
+                                    name={'desviacion'}
+                                    value={variable.desviacion}
+                                    style={{ width: '300px' }}
+                                    label="Desviacion Estandar"
+                                    type="number"
+                                    //defaultValue={1}
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de Desviacion Estandar'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+
+                                />
+                            </Grid>
+                        </>
+                        :
+                        <>
+                            <Grid item xs={3}>
+                                <TextField
+                                    name={'media'}
+                                    value={variable.media}
+                                    style={{ width: '300px' }}
+                                    label="Media"
+                                    type="number"
+                                    variant="outlined"
+                                    placeholder={'Ingrese valor de la Media'}
+                                    onChange={handleChange()}
+                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                />
+                            </Grid>
+                        </>
+                }
+            </Grid>
+        )
+    }
 
     /*Variables de Cantidad de simulaciones */
     const [cantidad, setCantidad] = React.useState(1)
@@ -57,19 +177,8 @@ const TrabajoPracticoCuatro = () => {
     const [desde, setDesde] = React.useState(1)
     const [hasta, setHasta] = React.useState(1)
 
-    /*Variable de distribucion*/
-    const [distribuciones, setDistribuciones] = React.useState(0)
-
-    /*Variable de distribucion UNIFORME*/
-    const [a, setA] = React.useState(1)
-    const [b, setB] = React.useState(1)
-
-    /*Variable de distribucion NORMAL*/
-    const [media, setMedia] = React.useState(1)
-    const [desvEstandar, setDesvEstandar] = React.useState(1)
-
     /* Metodo para setear Desde, Hasta y Cantidad de simulaciones */
-    const handleChange = () => e => {
+    const handleChange2 = () => e => {
         const { name, value } = e.target
         switch (name) {
             case 'Desde':
@@ -81,30 +190,14 @@ const TrabajoPracticoCuatro = () => {
             case 'Cantidad':
                 setCantidad(value)
                 break;
-            case 'a':
-                setA(value)
-                break;
-            case 'b':
-                setB(value)
-                break;
-            case 'Media':
-                setMedia(value)
-                break;
-            case 'DesvEstandar':
-                setDesvEstandar(value)
-                break;
         }
     }
 
-    /* Metodo para setear Select de distribuciones */
-    const handleChangeDistribuciones = (e) => {
-        setDistribuciones(e.target.value)
-    }
 
     return (
         <>
             <div >
-                <Grid style={{ paddingTop: '20px', flexDirection: "column" }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
+                <Grid style={{ paddingTop: '30px', marginBottom: '30px', flexDirection: "column" }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
                     <h2>Integrantes</h2>
                     <h3>Andermatten Alexis - Caro Victoria - Rodriguez Milena - Martinez Erik - Sueldo Tomas</h3>
                 </Grid>
@@ -119,7 +212,7 @@ const TrabajoPracticoCuatro = () => {
                             type="number"
                             variant="outlined"
                             placeholder={'Ingrese valor de Desde'}
-                            onChange={handleChange()}
+                            onChange={handleChange2()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
                     </Grid>
@@ -133,7 +226,7 @@ const TrabajoPracticoCuatro = () => {
                             defaultValue={1}
                             variant="outlined"
                             placeholder={'Ingrese valor de Hasta'}
-                            onChange={handleChange()}
+                            onChange={handleChange2()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
                         />
@@ -148,7 +241,7 @@ const TrabajoPracticoCuatro = () => {
                             defaultValue={1}
                             variant="outlined"
                             placeholder={'Ingrese la cantidad de simulaciones'}
-                            onChange={handleChange()}
+                            onChange={handleChange2()}
                             onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
                         />
                     </Grid>
@@ -156,104 +249,18 @@ const TrabajoPracticoCuatro = () => {
 
                 {/* Select para metodos congruenciales */}
                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'}  >
-                    <Grid item xs={4} style={{ marginTop: '40px' }}>
-                        <FormControl variant="outlined" >
-                            <InputLabel id="demo-simple-select-outlined-label">Distribuciones</InputLabel>
-                            <Select
-                                label="Distribuciones"
-                                value={distribuciones}
-                                onChange={(e) => handleChangeDistribuciones(e)}>
-                                <MenuItem value={0}>Distribución Uniforme</MenuItem>
-                                <MenuItem value={1}>Distribución Normal</MenuItem>
-                                <MenuItem value={2}>Distribución Exponencial</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    {distribuciones === 0 ?
-                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                            <Grid item xs={4}>
-                                <TextField
-                                    name={'a'}
-                                    value={a}
-                                    style={{ width: '300px' }}
-                                    label="a"
-                                    type="number"
-                                    variant="outlined"
-                                    placeholder={'Ingrese valor de A'}
-                                    onChange={handleChange()}
-                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField
-                                    name={'b'}
-                                    value={b}
-                                    style={{ width: '300px' }}
-                                    label="b"
-                                    type="number"
-                                    defaultValue={1}
-                                    variant="outlined"
-                                    placeholder={'Ingrese valor de B'}
-                                    onChange={handleChange()}
-                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
-                                />
-                            </Grid>
-                        </Grid>
-                        : distribuciones === 1 ?
-                            <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                                <Grid item xs={4}>
-                                    <TextField
-                                        name={'Media'}
-                                        value={media}
-                                        style={{ width: '300px' }}
-                                        label="Media"
-                                        type="number"
-                                        variant="outlined"
-                                        placeholder={'Ingrese valor de Media'}
-                                        onChange={handleChange()}
-                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <TextField
-                                        name={'DesvEstandar'}
-                                        value={desvEstandar}
-                                        style={{ width: '300px' }}
-                                        label="Desviacion Estandar"
-                                        type="number"
-                                        defaultValue={1}
-                                        variant="outlined"
-                                        placeholder={'Ingrese valor de Desviacion Estandar'}
-                                        onChange={handleChange()}
-                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-
-                                    />
-                                </Grid>
-                            </Grid>
-                            :
-                            <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                                <Grid item xs={4}>
-                                    <TextField
-                                        name={'media'}
-                                        value={a}
-                                        style={{ width: '300px' }}
-                                        label="Media"
-                                        type="number"
-                                        variant="outlined"
-                                        placeholder={'Ingrese valor de la Media'}
-                                        onChange={handleChange()}
-                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                                    />
-                                </Grid>
-                            </Grid>
-                    }
+                    {variables(setT1, t1, "T1")}
+                    {variables(setT2, t2, "T2")}
+                    {variables(setT3, t3, "T3")}
+                    {variables(setT4, t4, "T4")}
+                    {variables(setT5, t5, "T5")}
 
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
-                        <ButtonGroup variant="contained" color={distribuciones === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
+                        <ButtonGroup variant="contained" color={"primary"} aria-label="contained primary button group">
                             <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
-                            <Button onClick={() => generarVectorEstado2(t1, t2, t3)}>Simular Nuevo</Button>
+                            <Button onClick={() => scriptPrincipal2(cantidad, t1, t2, t3, t4, t5)}>Simular Distribucion</Button>
                             <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
                             <Button onClick={() => obtenerNoventa()}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
@@ -313,8 +320,6 @@ const TrabajoPracticoCuatro = () => {
                 </Grid>
             </div>
 
-
-            
             <Line
                 height="100"
                 width="400"
