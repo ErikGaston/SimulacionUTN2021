@@ -1,5 +1,6 @@
 let tiempo = [];
 let frecObservada = [];
+export let tiempoP = [];
 
 function uniforme(a, b) {
     let rnd = Math.random();
@@ -65,7 +66,6 @@ export function generarVectorEstado2(vectorAnterior, variable1, variable2, varia
     return nuevoVector
 }
 
-
 function generarVectorEstado(vectorAnterior) {
     let t1 = parseFloat(uniforme(20, 30));
     let t2 = parseFloat(uniforme(30, 50));
@@ -94,6 +94,7 @@ function generarVectorEstado(vectorAnterior) {
     }
     let prob45 = (contador / (vectorAnterior[0])).toFixed(2);
     let nuevoVector = [vectorAnterior[0] + 1, t1, t2, t3, t4, t5, tiempoTotal, tiempoPromedio, maximo, minimo, contador, prob45];
+    tiempoP.push(tiempoPromedio)
     return nuevoVector
 }
 

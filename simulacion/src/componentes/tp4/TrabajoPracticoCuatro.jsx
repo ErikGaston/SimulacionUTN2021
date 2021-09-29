@@ -16,38 +16,39 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import { Line } from 'react-chartjs-2';
+
 /*Estilos de tabla*/
 import './tabla.css';
 
 //Importa la logica de funciones
-import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa, generarVectorEstado2 } from './logicaFunciones';
+import { uniforme, normal, generarVectorEstado, rellenarTabla, scriptPrincipal, desdeHasta, vaciarTabla, obtenerNoventa, generarVectorEstado2, tiempoP } from './logicaFunciones';
 
 const TrabajoPracticoCuatro = () => {
 
     //Distrubuciones
     const [t1, setT1] = React.useState({
-        metodo:0,
-        a:1,
-        b:2,
-        media:3,
-        desviacion:4 
+        metodo: 0,
+        a: 1,
+        b: 2,
+        media: 3,
+        desviacion: 4
     })
     const [t2, setT2] = React.useState({
-        metodo:1,
-        a:1,
-        b:2,
-        media:3,
-        desviacion:4 
+        metodo: 1,
+        a: 1,
+        b: 2,
+        media: 3,
+        desviacion: 4
     })
     const [t3, setT3] = React.useState({
-        metodo:2,
-        a:1,
-        b:2,
-        media:3,
-        desviacion:4 
+        metodo: 2,
+        a: 1,
+        b: 2,
+        media: 3,
+        desviacion: 4
     })
 
-    //generarVectorEstado2(t1,t2,t3)();
 
     /*Variables de Cantidad de simulaciones */
     const [cantidad, setCantidad] = React.useState(1)
@@ -200,59 +201,59 @@ const TrabajoPracticoCuatro = () => {
                             </Grid>
                         </Grid>
                         : distribuciones === 1 ?
-                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                            <Grid item xs={4}>
-                                <TextField
-                                    name={'Media'}
-                                    value={media}
-                                    style={{ width: '300px' }}
-                                    label="Media"
-                                    type="number"
-                                    variant="outlined"
-                                    placeholder={'Ingrese valor de Media'}
-                                    onChange={handleChange()}
-                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField
-                                    name={'DesvEstandar'}
-                                    value={desvEstandar}
-                                    style={{ width: '300px' }}
-                                    label="Desviacion Estandar"
-                                    type="number"
-                                    defaultValue={1}
-                                    variant="outlined"
-                                    placeholder={'Ingrese valor de Desviacion Estandar'}
-                                    onChange={handleChange()}
-                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                            <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                                <Grid item xs={4}>
+                                    <TextField
+                                        name={'Media'}
+                                        value={media}
+                                        style={{ width: '300px' }}
+                                        label="Media"
+                                        type="number"
+                                        variant="outlined"
+                                        placeholder={'Ingrese valor de Media'}
+                                        onChange={handleChange()}
+                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        name={'DesvEstandar'}
+                                        value={desvEstandar}
+                                        style={{ width: '300px' }}
+                                        label="Desviacion Estandar"
+                                        type="number"
+                                        defaultValue={1}
+                                        variant="outlined"
+                                        placeholder={'Ingrese valor de Desviacion Estandar'}
+                                        onChange={handleChange()}
+                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
 
-                                />
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        :
-                        <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                            <Grid item xs={4}>
-                                <TextField
-                                    name={'media'}
-                                    value={a}
-                                    style={{ width: '300px' }}
-                                    label="Media"
-                                    type="number"
-                                    variant="outlined"
-                                    placeholder={'Ingrese valor de la Media'}
-                                    onChange={handleChange()}
-                                    onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
-                                />
+                            :
+                            <Grid style={{ paddingTop: '20px' }} container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                                <Grid item xs={4}>
+                                    <TextField
+                                        name={'media'}
+                                        value={a}
+                                        style={{ width: '300px' }}
+                                        label="Media"
+                                        type="number"
+                                        variant="outlined"
+                                        placeholder={'Ingrese valor de la Media'}
+                                        onChange={handleChange()}
+                                        onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1'); }}
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
                     }
 
                     {/* Menu de botones */}
                     <Grid item style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={distribuciones === 0 ? "primary" : 'secondary'} aria-label="contained primary button group">
                             <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
-                            <Button onClick={() => generarVectorEstado2(t1,t2,t3)}>Simular Nuevo</Button>
+                            <Button onClick={() => generarVectorEstado2(t1, t2, t3)}>Simular Nuevo</Button>
                             <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
                             <Button onClick={() => obtenerNoventa()}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
@@ -312,6 +313,28 @@ const TrabajoPracticoCuatro = () => {
                 </Grid>
             </div>
 
+
+            
+            <Line
+                height="100"
+                width="400"
+                data={{
+                    labels: tiempoP.map((item, index) => {
+                        return index;
+                    }),
+                    datasets: [
+                        {
+                            label: 'Tiempo Promedio',
+                            fill: false,
+                            lineTension: 0.5,
+                            backgroundColor: 'rgba(75,192,192,1)',
+                            borderColor: 'rgba(0,0,0,1)',
+                            borderWidth: 2,
+                            data: tiempoP
+                        }
+                    ]
+                }}
+            ></Line>
         </>
     )
 }
