@@ -165,7 +165,7 @@ export function scriptPrincipal(cantSimulaciones){
         for(let i=0; i < cantSimulaciones;i++){
             vector = generarVectorEstado(vector);
             if (i < 1000){
-                datos.push(vector[6])
+                datos.push(vector[7])
                 console.log(datos)
             }
             vectorCritico = caminoCritico(vector, vectorCritico)
@@ -190,7 +190,7 @@ export function scriptPrincipal(cantSimulaciones){
         let vectorAcumulado = encontrarAcum(vectorProb)
         rellenarVector(vectorAcumulado)
     }
-    crearGrafico(datos);
+    //crearGrafico(datos);
 }
 
 export function scriptPrincipal2(cantSimulaciones, t1, t2, t3, t4, t5) {
