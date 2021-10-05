@@ -22,10 +22,11 @@ import { Line } from 'react-chartjs-2';
 import './tabla.css';
 
 //Importa la logica de funciones
-import { scriptPrincipal, desdeHasta, scriptPrincipal2, App, datos } from './logicaFunciones';
+import { scriptPrincipal, desdeHasta, scriptPrincipal2, datos, desdeHasta2 } from './logicaFunciones';
 
 const TrabajoPracticoCuatro = () => {
-
+    const [data, setData] = React.useState([]);
+    
     //Distrubuciones
     const [t1, setT1] = React.useState({
         metodo: 0,
@@ -255,15 +256,16 @@ const TrabajoPracticoCuatro = () => {
                     {variables(setT5, t5, "T5")}
 
                     {/* Menu de botones */}
-                    <Grid item style={{ marginTop: '40px' }}>
+                    <Grid item   style={{ marginTop: '40px' }}>
                         <ButtonGroup variant="contained" color={"primary"} aria-label="contained primary button group">
-                            <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
+                            <Button onClick={() => scriptPrincipal(cantidad, setData)}>Simular</Button>
                             <Button onClick={() => scriptPrincipal2(cantidad, t1, t2, t3, t4, t5)}>Simular Distribucion</Button>
                             <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
+                            <Button onClick={() => desdeHasta2(desde, hasta, t1, t2, t3, t4, t5)}>Desde/hasta-Distribucion</Button>
                         </ButtonGroup>
                     </Grid>
                     {/* INTERVALOS DE CONFIANZA */}
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                             <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
                                 <TableContainer style={{ overflow: "auto" }}>
                                     <Table stickyHeader aria-label="sticky table">
@@ -294,8 +296,8 @@ const TrabajoPracticoCuatro = () => {
                         </Grid>
                     {/* TABLA DE SIMULACIONES */}
                     <Grid container direction={'row'} justifyContent={'space-between'} >
-                        <Grid item xs={7}>
-                            <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
+                        <Grid item xs={12}>
+                            <Grid item style={{ display: 'flex', maxHeight:'400px', marginTop: '50px' }} xs={12} >
                                 <TableContainer style={{ overflow: "auto" }}>
                                     <Table stickyHeader aria-label="sticky table" >
                                         <TableHead id= "TableHead">
@@ -354,11 +356,12 @@ const TrabajoPracticoCuatro = () => {
                 
             </div>
             <Line
+                style={{marginTop:'50px'}}
                 id='MyChart'
                 height="100"
                 width="400"
                 data={{
-                    labels: datos.map((item, index) => {
+                    labels: data.map((item, index) => {
                         return index;
                     }),
                     datasets: [

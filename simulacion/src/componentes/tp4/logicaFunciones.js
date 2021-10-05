@@ -13,7 +13,7 @@ var tablaStudent = [0,6.31,2.91,2.35,2.13,2.01,1.94,1.89,1.85,1.83,1.81,1.79,1.7
     1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65,
     1.65,1.65,1.65,1.65,1.65,1.65,1.65,1.65]
 
-export const datos = [];
+export let datos = [];
 
 function uniforme(a, b) {
     let rnd = Math.random();
@@ -61,19 +61,19 @@ export function generarVectorEstado2(vectorAnterior, variable1, variable2, varia
     let tiempoPromedio = parseFloat(((1 / (vectorAnterior[0] + 1)) * ((vectorAnterior[0] * vectorAnterior[7]) + tiempoTotal)).toFixed(2));
     let maximo = 0;
     let minimo = 0;
-    if (vectorAnterior[8] < tiempoTotal) {
+    if (vectorAnterior[10] < tiempoTotal) {
         maximo = tiempoTotal;
     }
     else {
-        maximo = vectorAnterior[8];
+        maximo = vectorAnterior[10];
     }
-    if (vectorAnterior[9] > tiempoTotal) {
+    if (vectorAnterior[11] > tiempoTotal) {
         minimo = tiempoTotal;
     }
     else {
-        minimo = vectorAnterior[9];
+        minimo = vectorAnterior[11];
     }
-    let contador = vectorAnterior[10]
+    let contador = vectorAnterior[12]
     if (tiempoTotal <= 45) {
         contador += 1
     }
@@ -106,19 +106,19 @@ function generarVectorEstado(vectorAnterior) {
     let tiempoPromedio = parseFloat(((1 / (vectorAnterior[0] + 1)) * ((vectorAnterior[0] * vectorAnterior[7]) + tiempoTotal)).toFixed(2));
     let maximo = 0;
     let minimo = 0;
-    if (vectorAnterior[8] < tiempoTotal) {
+    if (vectorAnterior[10] < tiempoTotal) {
         maximo = tiempoTotal;
     }
     else {
-        maximo = vectorAnterior[8];
+        maximo = vectorAnterior[10];
     }
-    if (vectorAnterior[9] > tiempoTotal) {
+    if (vectorAnterior[11] > tiempoTotal) {
         minimo = tiempoTotal;
     }
     else {
-        minimo = vectorAnterior[9];
+        minimo = vectorAnterior[11];
     }
-    let contador = vectorAnterior[10]
+    let contador = vectorAnterior[12]
     if (tiempoTotal <= 45) {
         contador += 1
     }
@@ -150,8 +150,9 @@ function rellenarTabla(filaNueva) {
     tCuerpo.appendChild(fila)
 }
 
-export function scriptPrincipal(cantSimulaciones){
+export function scriptPrincipal(cantSimulaciones, setData){
     vaciarTabla()
+    datos=[]
     let intervalos = []
     let vectorCritico = [0,0,0,0,0]
     let vector = [0,0,0,0,0,0,0,0,0,0,0,999999999,0,0];
@@ -164,9 +165,8 @@ export function scriptPrincipal(cantSimulaciones){
     if (cantSimulaciones>0){
         for(let i=0; i < cantSimulaciones;i++){
             vector = generarVectorEstado(vector);
-            if (i < 1000){
+            if (i < 500){
                 datos.push(vector[7])
-                console.log(datos)
             }
             vectorCritico = caminoCritico(vector, vectorCritico)
             probCritico = [(vectorCritico[0]*100/vector[0]).toFixed(2),(vectorCritico[1]*100/vector[0]).toFixed(2),(vectorCritico[2]*100/vector[0]).toFixed(2),(vectorCritico[3]*100/vector[0]).toFixed(2),(vectorCritico[4]*100/vector[0]).toFixed(2)]
@@ -189,12 +189,14 @@ export function scriptPrincipal(cantSimulaciones){
         }
         let vectorAcumulado = encontrarAcum(vectorProb)
         rellenarVector(vectorAcumulado)
+        setData(datos)
     }
     //crearGrafico(datos);
 }
 
 export function scriptPrincipal2(cantSimulaciones, t1, t2, t3, t4, t5) {
     vaciarTabla()
+    datos=[]
     let intervalos = []
     let vectorCritico = [0,0,0,0,0]
     let vector = [0,0,0,0,0,0,0,0,0,0,0,999999999,0,0];
@@ -236,6 +238,7 @@ export function scriptPrincipal2(cantSimulaciones, t1, t2, t3, t4, t5) {
 
 export function desdeHasta(desde, hasta) {
     vaciarTabla()
+    datos=[]
     let intervalos = []
     let tarde = []
     let vectorCritico = [0,0,0,0,0]
@@ -246,6 +249,41 @@ export function desdeHasta(desde, hasta) {
     let vectorProb = [(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2)]
     for(let i=0; i < hasta ;i++){
         vector = generarVectorEstado(vector);
+        vectorCritico = caminoCritico(vector, vectorCritico)
+        probCritico = [(vectorCritico[0]*100/vector[0]).toFixed(2),(vectorCritico[1]*100/vector[0]).toFixed(2),(vectorCritico[2]*100/vector[0]).toFixed(2),(vectorCritico[3]*100/vector[0]).toFixed(2),(vectorCritico[4]*100/vector[0]).toFixed(2)]
+        tarde = inicioTardio(vector)
+        if (i < 15){
+            intervalos.push(vector[6])
+            intervalos.sort(function(a, b){return a - b});
+        }
+        if (i > 14){
+            vectorContador = contarLimites(vector, vectorContador,intervalos)
+            vectorProb = [(vectorContador[0]/vector[0]).toFixed(2),(vectorContador[1]/vector[0]).toFixed(2),(vectorContador[2]/vector[0]).toFixed(2),(vectorContador[3]/vector[0]).toFixed(2),(vectorContador[4]/vector[0]).toFixed(2),(vectorContador[5]/vector[0]).toFixed(2),(vectorContador[6]/vector[0]).toFixed(2),(vectorContador[7]/vector[0]).toFixed(2),(vectorContador[8]/vector[0]).toFixed(2),(vectorContador[9]/vector[0]).toFixed(2),(vectorContador[10]/vector[0]).toFixed(2),(vectorContador[11]/vector[0]).toFixed(2),(vectorContador[12]/vector[0]).toFixed(2),(vectorContador[13]/vector[0]).toFixed(2),(vectorContador[14]/vector[0]).toFixed(2)]  
+        }
+        if (i == 14){
+            cambiarTabla(intervalos)
+        }
+        vectorFinal = vector.concat(vectorProb,probCritico,tarde)
+        if ((i+1) >= desde){
+            rellenarTabla(vectorFinal)
+        }
+    }
+    let vectorAcumulado = encontrarAcum(vectorProb)
+    rellenarVector(vectorAcumulado)
+}
+export function desdeHasta2(desde, hasta, t1, t2, t3, t4, t5) {
+    vaciarTabla()
+    datos=[]
+    let intervalos = []
+    let tarde = []
+    let vectorCritico = [0,0,0,0,0]
+    let vector = [0,0,0,0,0,0,0,0,0,0,0,999999999,0,0];
+    let vectorContador = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    let vectorFinal = []
+    let probCritico = [0,0,0,0,0]
+    let vectorProb = [(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2),(1/15).toFixed(2)]
+    for(let i=0; i < hasta ;i++){
+        vector = generarVectorEstado2(vector, t1, t2, t3, t4, t5);
         vectorCritico = caminoCritico(vector, vectorCritico)
         probCritico = [(vectorCritico[0]*100/vector[0]).toFixed(2),(vectorCritico[1]*100/vector[0]).toFixed(2),(vectorCritico[2]*100/vector[0]).toFixed(2),(vectorCritico[3]*100/vector[0]).toFixed(2),(vectorCritico[4]*100/vector[0]).toFixed(2)]
         tarde = inicioTardio(vector)
