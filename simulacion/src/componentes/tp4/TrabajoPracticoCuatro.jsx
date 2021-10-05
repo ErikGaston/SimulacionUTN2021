@@ -22,7 +22,7 @@ import { Line } from 'react-chartjs-2';
 import './tabla.css';
 
 //Importa la logica de funciones
-import { scriptPrincipal, desdeHasta, obtenerNoventa, scriptPrincipal2, tiempoP } from './logicaFunciones';
+import { scriptPrincipal, desdeHasta, scriptPrincipal2, App, datos } from './logicaFunciones';
 
 const TrabajoPracticoCuatro = () => {
 
@@ -192,11 +192,9 @@ const TrabajoPracticoCuatro = () => {
                 break;
         }
     }
-
-
     return (
         <>
-            <div >
+            <div>
                 <Grid style={{ paddingTop: '30px', marginBottom: '30px', flexDirection: "column" }} container direction={'row'} justifyContent={'center'} alignItems={'center'}>
                     <h2>Integrantes</h2>
                     <h3>Andermatten Alexis - Caro Victoria - Rodriguez Milena - Martinez Erik - Sueldo Tomas</h3>
@@ -262,17 +260,45 @@ const TrabajoPracticoCuatro = () => {
                             <Button onClick={() => scriptPrincipal(cantidad)}>Simular</Button>
                             <Button onClick={() => scriptPrincipal2(cantidad, t1, t2, t3, t4, t5)}>Simular Distribucion</Button>
                             <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
-                            <Button onClick={() => obtenerNoventa()}>Obtener fecha de probabilidad 90%</Button>
                         </ButtonGroup>
                     </Grid>
-
+                    {/* INTERVALOS DE CONFIANZA */}
+                    <Grid item xs={4}>
+                            <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
+                                <TableContainer style={{ overflow: "auto" }}>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow id="vectorAcum">
+                                                <TableCell>L1</TableCell>
+                                                <TableCell>L2</TableCell>
+                                                <TableCell>L3</TableCell>
+                                                <TableCell>L4</TableCell>
+                                                <TableCell>L5</TableCell>
+                                                <TableCell>L6</TableCell>
+                                                <TableCell >L7</TableCell>
+                                                <TableCell>L8</TableCell>
+                                                <TableCell>L9</TableCell>
+                                                <TableCell>L10</TableCell>
+                                                <TableCell>L11</TableCell>
+                                                <TableCell>L12</TableCell>
+                                                <TableCell>L13</TableCell>
+                                                <TableCell>L14</TableCell>
+                                                <TableCell>L15</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody id="cuerpoVector">
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Grid>
+                        </Grid>
                     {/* TABLA DE SIMULACIONES */}
                     <Grid container direction={'row'} justifyContent={'space-between'} >
                         <Grid item xs={7}>
                             <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
                                 <TableContainer style={{ overflow: "auto" }}>
                                     <Table stickyHeader aria-label="sticky table" >
-                                        <TableHead>
+                                        <TableHead id= "TableHead">
                                             <TableRow id={'tableRow'}>
                                                 <TableCell >#</TableCell>
                                                 <TableCell>T1</TableCell>
@@ -282,10 +308,37 @@ const TrabajoPracticoCuatro = () => {
                                                 <TableCell>T5</TableCell>
                                                 <TableCell>Tiempo Total</TableCell>
                                                 <TableCell>Tiempo Promedio</TableCell>
+                                                <TableCell>Varianza</TableCell>
+                                                <TableCell>Confianza</TableCell>
                                                 <TableCell>Maximo</TableCell>
                                                 <TableCell>Minimo</TableCell>
                                                 <TableCell>Contar Proporcion</TableCell>
                                                 <TableCell>Probabilidad(45)</TableCell>
+                                                <TableCell>L1</TableCell>
+                                                <TableCell>L2</TableCell>
+                                                <TableCell>L3</TableCell>
+                                                <TableCell>L4</TableCell>
+                                                <TableCell>L5</TableCell>
+                                                <TableCell>L6</TableCell>
+                                                <TableCell >L7</TableCell>
+                                                <TableCell>L8</TableCell>
+                                                <TableCell>L9</TableCell>
+                                                <TableCell>L10</TableCell>
+                                                <TableCell>L11</TableCell>
+                                                <TableCell>L12</TableCell>
+                                                <TableCell>L13</TableCell>
+                                                <TableCell>L14</TableCell>
+                                                <TableCell>L15</TableCell>
+                                                <TableCell>C. A1</TableCell>
+                                                <TableCell>C. A2</TableCell>
+                                                <TableCell>C. A3</TableCell>
+                                                <TableCell>C. A4</TableCell>
+                                                <TableCell>C. A5</TableCell>
+                                                <TableCell>Tarde A1</TableCell>
+                                                <TableCell>Tarde A2</TableCell>
+                                                <TableCell>Tarde A3</TableCell>
+                                                <TableCell>Tarde A4</TableCell>
+                                                <TableCell>Tarde A5</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody id="cuerpoTabla">
@@ -294,37 +347,18 @@ const TrabajoPracticoCuatro = () => {
                                 </TableContainer>
                             </Grid>
                         </Grid>
-
-                        {/* TABLA DE FRECUENCIAS */}
-                        <Grid item xs={4}>
-                            <Grid item style={{ display: 'flex', marginTop: '50px' }} xs={12} >
-                                <TableContainer style={{ overflow: "auto" }}>
-                                    <Table stickyHeader aria-label="sticky table">
-                                        <TableHead>
-                                            <TableRow id={'tableRow'}>
-                                                <TableCell >#</TableCell>
-                                                <TableCell>Lim Inferior</TableCell>
-                                                <TableCell>Lim Superior</TableCell>
-                                                <TableCell>F. Observada</TableCell>
-                                                <TableCell>Probabilidad</TableCell>
-                                                <TableCell>Probabilidad Acumulada</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody id="cuerpoTabla2">
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </div>
-
+            <div id='cont'>
+                
+            </div>
             <Line
+                id='MyChart'
                 height="100"
                 width="400"
                 data={{
-                    labels: tiempoP.map((item, index) => {
+                    labels: datos.map((item, index) => {
                         return index;
                     }),
                     datasets: [
@@ -335,7 +369,7 @@ const TrabajoPracticoCuatro = () => {
                             backgroundColor: 'rgba(75,192,192,1)',
                             borderColor: 'rgba(0,0,0,1)',
                             borderWidth: 2,
-                            data: tiempoP
+                            data: datos
                         }
                     ]
                 }}
