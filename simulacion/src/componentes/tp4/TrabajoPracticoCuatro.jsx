@@ -260,7 +260,7 @@ const TrabajoPracticoCuatro = () => {
                         <ButtonGroup variant="contained" color={"primary"} aria-label="contained primary button group">
                             <Button onClick={() => scriptPrincipal(cantidad, setData)}>Simular</Button>
                             <Button onClick={() => scriptPrincipal2(cantidad, t1, t2, t3, t4, t5)}>Simular Distribucion</Button>
-                            <Button onClick={() => desdeHasta(desde, hasta)}>Desde/hasta</Button>
+                            <Button onClick={() => desdeHasta(desde, hasta, setData)}>Desde/hasta</Button>
                             <Button onClick={() => desdeHasta2(desde, hasta, t1, t2, t3, t4, t5)}>Desde/hasta-Distribucion</Button>
                         </ButtonGroup>
                     </Grid>

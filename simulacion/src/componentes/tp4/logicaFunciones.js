@@ -239,7 +239,7 @@ export function scriptPrincipal2(cantSimulaciones, t1, t2, t3, t4, t5) {
     }
 }
 
-export function desdeHasta(desde, hasta) {
+export function desdeHasta(desde, hasta, setData) {
     vaciarTabla()
     datos = []
     let intervalos = []
@@ -270,9 +270,13 @@ export function desdeHasta(desde, hasta) {
         if ((i + 1) >= desde) {
             rellenarTabla(vectorFinal)
         }
+        if ((desde - 1) <= i && i <= (hasta)) {
+            datos.push(vector[7])
+        }
     }
     let vectorAcumulado = encontrarAcum(vectorProb)
     rellenarVector(vectorAcumulado)
+    setData(datos)
 }
 export function desdeHasta2(desde, hasta, t1, t2, t3, t4, t5) {
     vaciarTabla()
